@@ -1,7 +1,6 @@
 import express from "express";
+import cors from "cors";
 import db from "./database";
-
-const cors = require("cors");
 
 const app = express();
 app.use(cors());
