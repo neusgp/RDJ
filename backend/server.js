@@ -1,5 +1,5 @@
-const express = require("express");
-const { db } = require("./database.js");
+import express from "express";
+import db from "./database";
 
 const cors = require("cors");
 
@@ -15,7 +15,7 @@ app.get("/derby_name", (req, res) => {
   db.query("SELECT * FROM profiles", (err, data) => {
     if (err) {
       console.log("error", err);
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err });
     } else {
       console.log("result:", data.rows);
       return res.json(data.rows);
