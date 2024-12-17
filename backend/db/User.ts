@@ -1,4 +1,4 @@
-import { sequelize } from "./config.js";
+import { sequelize } from "./config";
 import { DataTypes } from "sequelize";
 
 const { STRING } = DataTypes;

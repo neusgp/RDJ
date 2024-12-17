@@ -11,7 +11,7 @@ export const sequelize = new Sequelize(DB_NAME, DB_USER, PASSWORD, {
   dialect: "postgres",
   dialectOptions: {
     ssl: {
-      connectionUnauthorized: false,
+      connectionUnauthorized: false,  
     },
   },
 });
