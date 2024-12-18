@@ -8,18 +8,20 @@ export const createUser = async ({
   password: string;
 }) => {
   //validation
+  //FIX
   UserValidation.safeParse({ email, password });
 
   //make sure username is unique
-  if (!!User.findOne({ where: { email } }))
-    throw new Error("email is already in use");
+  const existentUser = await User.findOne({ where: { email } });
+  if (!!existentUser) throw new Error("email is already in use");
 
   //insert to db
   await User.create({ email, password });
-
   const newUser = await User.findOne({ where: { email, password } });
+  if (!newUser) throw new Error("Failed to store new user");
 
-  return newUser
+   //return user id
+  return newUser.dataValues.id;
 
-  //return user id
+ 
 };

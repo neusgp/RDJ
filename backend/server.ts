@@ -1,6 +1,6 @@
-import express, { Request, Response} from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
-import { createUser, sequelize as db} from "./db";
+import { createUser, sequelize as db } from "./db";
 
 const app = express();
 
@@ -8,25 +8,30 @@ app.use(cors());
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("ok");
+});
+
 //User Authentication
-app.post("/register", (req: Request, res: Response) => {
+
+//register
+app.post("/register", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const newUser = createUser({ email, password });
-    console.log("new user:", newUser);
-    res.send("successs!!!!!");
-
-    //redirect to dashboard
+    await createUser({ email, password });
+    res.status(200).json({success: true})
   } catch (err) {
-    console.log("error creating user", err);
-    res.send(`impossible to create user`);
+    console.error(err)
+    res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again later" });
   }
+  res.end();
 });
 
 //login
 //app.post("/login", (req, res) => {});
-//register
 
 //logout
 //app.post("/logout", (req, res) => {});
