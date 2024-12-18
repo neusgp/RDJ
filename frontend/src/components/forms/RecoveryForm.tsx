@@ -7,14 +7,16 @@ import { NavLink } from "react-router-dom";
 export const RecoveryForm = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-6">
-      <h2>You'll receive a reset link on your email inbox</h2>
+      <p className="text-lg font-bold">
+        You will receive a reset link on your email inbox
+      </p>
       <div className="space-y-2 w-[60%]">
         <InputField label="Email" name="email" type="string" required />
       </div>
       <SubmitButton label="Send link" />
-      <p className="text-slate-400 text-center">
-        You haven't received anything? Make sure you didn't enter your email
-        incorrectly. <br />
+      <p className="text-slate-400 text-center text-sm w-[60%]">
+        You haven't received anything? Make sure you entered your email
+        correctly. <br />
         If the problem persists, contact us.
       </p>
       <NavLink to="/" className="cursor-pointer underline">

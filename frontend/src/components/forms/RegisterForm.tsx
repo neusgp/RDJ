@@ -8,7 +8,7 @@ export const RegisterForm = ({
 }) => {
   return (
     <div className="flex flex-col justify-center gap-6">
-      <h2>Register</h2>
+      <p className="text-lg font-bold">Register</p>
       <div className="space-y-2">
         <InputField label="Email" name="email" type="string" required />
         <InputField label="Password" name="password" type="password" required />
