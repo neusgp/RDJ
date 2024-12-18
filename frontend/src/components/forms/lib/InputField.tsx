@@ -19,7 +19,7 @@ export const InputField = ({
     <div>
       {label && <p>{label}</p>}
       <input
-        className="w-[100%]"
+        className="w-[100%] border"
         name={name}
         type={type}
         placeholder={placeholder}

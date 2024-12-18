@@ -1,3 +1,4 @@
+import { AutenticationForm } from './AutenticationForm'
+
 export * from './lib'
-export * from './RegisterForm'
-export * from './LoginForm'
+export *  from './AutenticationForm'

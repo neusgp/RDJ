@@ -1,8 +1,9 @@
 import React from "react";
+import { AutenticationForm } from "../components";
 
 export const LandingPage = () => {
   return (
-    <div className="flex flex-col bg-red-200 h-screen items-center justify-center gap-20">
+    <div className="flex flex-col h-screen items-center justify-center gap-20">
       <div className="flex flex-col items-center gap-4">
         <h1>Your progress doesn't stop when you leave the track.</h1>
         <p className="w-[60%] text-center">
@@ -12,7 +13,7 @@ export const LandingPage = () => {
           your next derby challenge!
         </p>
       </div>
-      <LoginForm />
+      <AutenticationForm />
     </div>
   );
 };
