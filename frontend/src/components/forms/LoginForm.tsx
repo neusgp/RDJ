@@ -1,5 +1,6 @@
 import React from "react";
 import { InputField, SubmitButton } from "./lib";
+import { Link, NavLink } from "react-router-dom";
 
 export const LoginForm = ({
   setIsRegister,
@@ -15,7 +16,12 @@ export const LoginForm = ({
       </div>
       <SubmitButton label="Submit" />
       <div className="text-center space-y-2">
-        <p className="text-slate-400 underline">I forgot my password</p>
+        <NavLink
+          to="/recovery"
+          className="text-slate-400 cursor-pointer underline">
+          I forgot my password
+        </NavLink>
+
         <p>
           Or, if you don't have and account, <br />{" "}
           <a
