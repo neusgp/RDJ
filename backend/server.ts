@@ -42,7 +42,7 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     console.error(err);
     res
-      .status(500)
+      .status(401)
       .json({
         error:
           "Something went wrong. Make sure you enter the right credentials",
