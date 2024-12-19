@@ -16,6 +16,7 @@ export const createUser = async ({
   if (!!existentUser) throw new Error("email is already in use");
 
   //insert to db
+  //TO-DO: HASH PASWORD
   await User.create({ email, password });
   const newUser = await User.findOne({ where: { email, password } });
   if (!newUser) throw new Error("Failed to store new user");
@@ -23,5 +24,4 @@ export const createUser = async ({
    //return user id
   return newUser.dataValues.id;
 
- 
 };
