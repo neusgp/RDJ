@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { createUser, sequelize as db, getUser } from "./db";
+import { createUser, sequelize as db, authenticateUser } from "./db";
 
 const app = express();
 
@@ -36,7 +36,7 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const id = await getUser({ email, password });
+    const id = await authenticateUser({ email, password });
     res.status(200).json({ success: true, id });
     
   } catch (err) {

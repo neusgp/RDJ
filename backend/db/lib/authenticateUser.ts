@@ -1,7 +1,7 @@
 import { PublicUser, User, UserValidation } from "../models";
 import bcrypt from "bcrypt";
 
-export const getUser = async ({
+export const authenticateUser = async ({
   email,
   password,
 }: {

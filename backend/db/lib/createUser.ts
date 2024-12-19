@@ -7,7 +7,7 @@ export const createUser = async ({
 }: {
   email: string;
   password: string;
-}) => {
+}): Promise< void | Error> => {
   UserValidation.parse({ email, password });
 
   const existentUser = await User.findOne({ where: { email } });
