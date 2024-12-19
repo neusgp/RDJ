@@ -11,6 +11,7 @@ export const authenticateUser = async ({
   UserValidation.parse({ email, password });
 
   const user = await User.findOne({ where: { email } });
+  console.log("user", user);
   if (!user) throw new Error("User doesn't exist");
 
   const { id, password: retrievedPassword, email: retrievedEmail } = user;
@@ -18,6 +19,8 @@ export const authenticateUser = async ({
 
   const isValid = bcrypt.compareSync(password, retrievedPassword);
 
+  if (!isValid) throw new Error("Password is invalid");
+
   const publicUser = { id, email: retrievedEmail };
-  return isValid ? publicUser : new Error("Password is invalid");
+  return publicUser;
 };
