@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import { createUser, sequelize as db, getUser } from "./db";
 
@@ -50,6 +50,7 @@ app.post("/login", async (req, res) => {
   }
   res.end();
 });
+
 
 //logout
 //app.post("/logout", (req, res) => {});

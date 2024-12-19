@@ -1,4 +1,4 @@
-import { User, UserValidation } from "../models";
+import { PublicUser, User, UserValidation } from "../models";
 import bcrypt from "bcrypt";
 
 export const getUser = async ({
@@ -7,15 +7,17 @@ export const getUser = async ({
 }: {
   email: string;
   password: string;
-}) => {
+}): Promise<PublicUser | Error> => {
   UserValidation.parse({ email, password });
 
   const user = await User.findOne({ where: { email } });
   if (!user) throw new Error("User doesn't exist");
 
-  const {id, password: retrievedPassword} = user;
+  const { id, password: retrievedPassword, email: retrievedEmail } = user;
+  if (!id) throw new Error("User doesn't exist: id is missing");
 
-  const isValid = id && bcrypt.compareSync(retrievedPassword, password);
+  const isValid = bcrypt.compareSync(password, retrievedPassword);
 
-  return isValid ? id : new Error('Password is invalid');
+  const publicUser = { id, email: retrievedEmail };
+  return isValid ? publicUser : new Error("Password is invalid");
 };
