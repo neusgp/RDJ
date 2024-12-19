@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { createUser, sequelize as db } from "./db";
+import { createUser, sequelize as db, getUser } from "./db";
 
 const app = express();
 
@@ -20,9 +20,10 @@ app.post("/register", async (req, res) => {
 
   try {
     await createUser({ email, password });
-    res.status(200).json({success: true})
+    res.status(200).json({ success: true });
+
   } catch (err) {
-    console.error(err)
+    console.error(err);
     res
       .status(500)
       .json({ error: "Something went wrong. Please try again later" });
@@ -31,7 +32,24 @@ app.post("/register", async (req, res) => {
 });
 
 //login
-//app.post("/login", (req, res) => {});
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const id = await getUser({ email, password });
+    res.status(200).json({ success: true, id });
+    
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({
+        error:
+          "Something went wrong. Make sure you enter the right credentials",
+      });
+  }
+  res.end();
+});
 
 //logout
 //app.post("/logout", (req, res) => {});
