@@ -9,11 +9,11 @@ export const createUser = async ({
 }) => {
   //validation
   //FIX
-  UserValidation.safeParse({ email, password });
+  UserValidation.parse({ email, password });
 
   //make sure username is unique
   const existentUser = await User.findOne({ where: { email } });
-  if (!!existentUser) throw new Error("email is already in use");
+  if (!!existentUser) throw new Error("Email is already in use");
 
   //insert to db
   //TO-DO: HASH PASWORD

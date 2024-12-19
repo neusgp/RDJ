@@ -8,8 +8,9 @@ const { STRING } = DataTypes;
 
 export const UserValidation = z.object({
   email: z.string().email(),
-  //pw must contain at least 8 characters, at least one letter and one number
-  password: z.string().regex(new RegExp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")),
+  password: z
+    .string()
+    .regex(new RegExp("^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$")),
 });
 
 export type User = z.infer<typeof UserValidation>;
