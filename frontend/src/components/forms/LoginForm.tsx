@@ -11,10 +11,10 @@ export const LoginForm = ({
     <div className="flex flex-col justify-center gap-6">
       <p className="text-lg font-bold">Log in</p>
       <div className="space-y-2">
-        <InputField label="Email" name="email" type="string" required />
-        <InputField label="Password" name="password" type="password" required />
+        {/* <InputField label="Email" name="email" type="string" required />
+        <InputField label="Password" name="password" type="password" required /> */}
       </div>
-      <SubmitButton label="Submit" />
+      {/* <SubmitButton label="Submit" /> */}
       <div className="flex flex-col text-center gap-2">
         <NavLink
           to="/recovery"
