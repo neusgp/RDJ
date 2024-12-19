@@ -38,15 +38,14 @@ app.post("/login", async (req, res) => {
   try {
     const id = await authenticateUser({ email, password });
     res.status(200).json({ success: true, id });
-    
+
   } catch (err) {
     console.error(err);
     res
       .status(401)
-      .json({
-        error:
-          "Something went wrong. Make sure you enter the right credentials",
-      });
+      .json(
+        { error: "Something went wrong. Make sure you enter the right credentials" }
+      );
   }
   res.end();
 });
