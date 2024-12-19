@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { sequelize } from "../config";
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, ModelDefined } from "sequelize";
 
 // to-do: separate validations and types in different files
 
@@ -10,12 +10,14 @@ export const UserValidation = z.object({
   email: z.string().email(),
   password: z
     .string()
-    .regex(new RegExp("^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$")),
+    //.regex(new RegExp("^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$")),
 });
 
-export type User = z.infer<typeof UserValidation>;
+export type UserProps = z.infer<typeof UserValidation> & {id?: String};
 
-export const User = sequelize.define("user", {
+interface UserInstance extends Model<UserProps>, UserProps {}
+
+export const User = sequelize.define<UserInstance>("user", {
   email: { type: STRING, unique: true },
   password: { type: STRING },
 });
