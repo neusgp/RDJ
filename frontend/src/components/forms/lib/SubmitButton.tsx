@@ -3,10 +3,10 @@ import { RegisterFormProps } from "../RegisterForm";
 
 export const SubmitButton = ({
   label,
-  isDisabled = true,
+  isDisabled,
 }: {
   label: string;
-  isDisabled: boolean;
+  isDisabled?: boolean;
 }) => {
   return (
     <button

@@ -6,8 +6,8 @@ import {
   PasswordValidation,
   RegisterFormValidation,
 } from "../../validation";
-import { NavLink } from "react-router-dom";
 
+//rename to something reusable
 export type RegisterFormProps = z.infer<typeof RegisterFormValidation>;
 
 export const RegisterForm = ({
@@ -59,7 +59,7 @@ export const RegisterForm = ({
     });
   };
 
-  //const isDisabled = !!emailError || !!passwordError;
+  const isDisabled = !!emailError || !!passwordError || !!submitError;
 
   return (
     <>
@@ -96,7 +96,7 @@ export const RegisterForm = ({
               <ValidationHint hint={passwordError} />
             </div>
             <ValidationHint hint={submitError} />
-            <SubmitButton label="Submit" isDisabled={false} />
+            <SubmitButton label="Submit" isDisabled={isDisabled} />
             <div className="text-center">
               Or, if you already have and account, <br />
               <a
