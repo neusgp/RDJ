@@ -6,6 +6,7 @@ import {
   PasswordValidation,
   RegisterFormValidation,
 } from "../../validation";
+import { NavLink } from "react-router-dom";
 
 export type RegisterFormProps = z.infer<typeof RegisterFormValidation>;
 
@@ -20,6 +21,8 @@ export const RegisterForm = ({
   const [emailError, setEmailError] = useState<string | undefined>();
   const [passwordError, setPasswordError] = useState<string | undefined>();
   const [submitError, setSubmitError] = useState<string | undefined>();
+
+  const [success, setSuccess] = useState<boolean>(false);
 
   //todo: see if we can repeat less code
   const handleEmailValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +51,7 @@ export const RegisterForm = ({
       body: JSON.stringify({ email, password }),
     }).then(async (res) => {
       if (res.ok) {
-        //display link to login
+        setSuccess(true);
       } else {
         const { error } = await res.json();
         setSubmitError(error);
@@ -60,38 +63,51 @@ export const RegisterForm = ({
 
   return (
     <>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="flex flex-col justify-center gap-6">
-          <p className="text-lg font-bold">Register</p>
-          <div className="space-y-2">
-            <InputField
-              label="Email"
-              type="string"
-              required
-              handleValue={handleEmailValue}
-            />
-            <ValidationHint hint={emailError} />
-            <InputField
-              label="Password"
-              type="password"
-              required
-              handleValue={handlePasswordValue}
-            />
-            <ValidationHint hint={passwordError} />
-          </div>
-          <ValidationHint hint={submitError} />
-          <SubmitButton label="Submit" isDisabled={false} />
-          <div className="text-center">
-            Or, if you already have and account, <br />
-            <a
-              className="cursor-pointer underline"
-              onClick={() => setIsRegister(false)}>
-              Log in
-            </a>
-          </div>
+      {success ? (
+        <div className="flex flex-col justify-center text-center">
+          <p className="font-bold text-green-500">
+            Perfect, you are now registered!
+          </p>
+          <br />
+          <p
+            className="underline cursor-pointer"
+            onClick={() => window.location.reload()}>
+            Log in to see your new dashboard.
+          </p>
         </div>
-      </form>
-      <p></p>
+      ) : (
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <div className="flex flex-col justify-center gap-6">
+            <p className="text-lg font-bold">Register</p>
+            <div className="space-y-2">
+              <InputField
+                label="Email"
+                type="string"
+                required
+                handleValue={handleEmailValue}
+              />
+              <ValidationHint hint={emailError} />
+              <InputField
+                label="Password"
+                type="password"
+                required
+                handleValue={handlePasswordValue}
+              />
+              <ValidationHint hint={passwordError} />
+            </div>
+            <ValidationHint hint={submitError} />
+            <SubmitButton label="Submit" isDisabled={false} />
+            <div className="text-center">
+              Or, if you already have and account, <br />
+              <a
+                className="cursor-pointer underline"
+                onClick={() => setIsRegister(false)}>
+                Log in
+              </a>
+            </div>
+          </div>
+        </form>
+      )}
     </>
   );
 };
