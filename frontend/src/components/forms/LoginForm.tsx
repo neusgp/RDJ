@@ -30,12 +30,19 @@ export const LoginForm = ({
     //for now
     fetch("http://localhost:8081/login", {
       method: "POST",
+      credentials: "include",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ email, password }),
     }).then(async (res) => {
       if (res.ok) {
-        //const { user } = await res.json();
         setSuccess(true);
+        setTimeout(() => {
+          fetch("http://localhost:8081/protected", {
+            method: "GET",
+            headers: { "Content-type": "application/json" },
+            credentials: "include",
+          });
+        }, 2000);
       } else {
         const { error } = await res.json();
         setSubmitError(error);
