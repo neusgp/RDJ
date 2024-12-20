@@ -41,6 +41,9 @@ export const LoginForm = ({
             method: "GET",
             headers: { "Content-type": "application/json" },
             credentials: "include",
+          }).then((res) => {
+            if (res.ok)
+              window.location.href = "http://localhost:3000/dashboard";
           });
         }, 2000);
       } else {
