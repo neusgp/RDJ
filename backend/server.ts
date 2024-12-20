@@ -1,12 +1,21 @@
 import express from "express";
 import cors from "cors";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 import { createUser, sequelize as db, authenticateUser } from "./db";
+
+const { SECRET_JWT } = process.env;
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000", // To replace with the real URL!
+  credentials: true,
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("ok");
@@ -21,14 +30,12 @@ app.post("/register", async (req, res) => {
   try {
     await createUser({ email, password });
     res.status(200).json({ success: true });
-
   } catch (err) {
     console.error(err);
     res
       .status(500)
       .json({ error: "Something went wrong. Please try again later" });
   }
-  res.end();
 });
 
 //login
@@ -36,20 +43,45 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const id = await authenticateUser({ email, password });
-    res.status(200).json({ success: true, id });
+    const user = await authenticateUser({
+      email,
+      password,
+    });
+
+    const token = jwt.sign({ userEmail: user.email, id: user.id }, SECRET_JWT, {
+      expiresIn: "1h",
+    });
+
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 1000 * 60 * 60,
+        //secure: process.env.NODE_ENV === "production",
+      })
+      .json({ id: user.id, token });
+  } catch (err) {
+    console.error(err);
+    res.status(401).json({
+      error: "Something went wrong. Make sure you enter the right credentials",
+    });
+  }
+});
+
+//protected
+app.get("/protected", (req, res) => {
+  const token = req.cookies.access_token;
+
+  try {
+    const data = jwt.verify(token, SECRET_JWT);
+    console.log(data);
+    res.status(200).json({ data });
 
   } catch (err) {
     console.error(err);
-    res
-      .status(401)
-      .json(
-        { error: "Something went wrong. Make sure you enter the right credentials" }
-      );
+    res.status(401).json({ error: "Access not authorized" });
   }
-  res.end();
 });
-
 
 //logout
 //app.post("/logout", (req, res) => {});
