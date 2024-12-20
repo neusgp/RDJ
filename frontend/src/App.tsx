@@ -1,8 +1,8 @@
 import React from "react";
-import "./index.css";
-import { LandingPage } from "./pages/LandingPage";
-import { PasswordRecovery } from "./pages/PasswordRecovery";
 import { Route, Routes } from "react-router-dom";
+
+import { Dashboard, LandingPage, PasswordRecovery } from "./pages";
+import "./index.css";
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/recovery" element={<PasswordRecovery />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </main>
     </div>
