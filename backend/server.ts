@@ -74,7 +74,6 @@ app.get("/protected", (req, res) => {
 
   try {
     const data = jwt.verify(token, SECRET_JWT);
-    console.log(data);
     res.status(200).json({ data });
 
   } catch (err) {
