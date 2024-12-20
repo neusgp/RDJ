@@ -7,11 +7,11 @@ export const authenticateUser = async ({
 }: {
   email: string;
   password: string;
-}): Promise<PublicUser | Error> => {
+}): Promise<PublicUser> => {
   UserValidation.parse({ email, password });
 
   const user = await User.findOne({ where: { email } });
-  console.log("user", user);
+  
   if (!user) throw new Error("User doesn't exist");
 
   const { id, password: retrievedPassword, email: retrievedEmail } = user;
