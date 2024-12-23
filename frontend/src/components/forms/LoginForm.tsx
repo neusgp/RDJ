@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { InputField, SubmitButton, ValidationHint } from "./lib";
 import { NavLink } from "react-router-dom";
+import { login } from "../../api";
 
 export const LoginForm = ({
   setIsRegister,
@@ -9,9 +10,7 @@ export const LoginForm = ({
 }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
   const [submitError, setSubmitError] = useState<string | undefined>();
-
   const [success, setSuccess] = useState<boolean>(false);
 
   //todo: see if we can repeat less code-> extract and reuse functions, etc.
@@ -23,34 +22,12 @@ export const LoginForm = ({
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSuccess(false);
 
-    //for now
-    fetch("http://localhost:8081/login", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    }).then(async (res) => {
-      if (res.ok) {
-        setSuccess(true);
-        setTimeout(() => {
-          fetch("http://localhost:8081/protected", {
-            method: "GET",
-            headers: { "Content-type": "application/json" },
-            credentials: "include",
-          }).then((res) => {
-            if (res.ok)
-              window.location.href = "http://localhost:3000/dashboard";
-          });
-        }, 2000);
-      } else {
-        const { error } = await res.json();
-        setSubmitError(error);
-      }
-    });
+    const { error } = await login({ email, password });
+    setSubmitError(error);
   };
 
   return (

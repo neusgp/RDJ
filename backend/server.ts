@@ -9,8 +9,8 @@ const { SECRET_JWT } = process.env;
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000", // To replace with the real URL!
   credentials: true,
+  origin: "http://localhost:3000", // To replace with the real URL!
 };
 
 app.use(cors(corsOptions));
@@ -63,13 +63,14 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(401).json({
-      error: "Something went wrong. Make sure you enter the right credentials",
+      //todo: is this a good message?
+      error: "Autentication failed. Make sure you enter the right credentials.",
     });
   }
 });
 
-//protected
-app.get("/protected", (req, res) => {
+//authorise
+app.get("/authorise", (req, res) => {
   const token = req.cookies.access_token;
 
   try {
@@ -78,7 +79,7 @@ app.get("/protected", (req, res) => {
 
   } catch (err) {
     console.error(err);
-    res.status(401).json({ error: "Access not authorized" });
+    res.status(401).json({ error: "Access not authorised" });
   }
 });
 
