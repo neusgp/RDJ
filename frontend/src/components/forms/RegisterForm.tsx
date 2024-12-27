@@ -96,7 +96,11 @@ export const RegisterForm = ({
               <ValidationHint hint={passwordError} />
             </div>
             <ValidationHint hint={submitError} />
-            <SubmitButton label="Submit" isDisabled={isDisabled} />
+            <SubmitButton
+              label="Register"
+              isDisabled={isDisabled}
+              intent="save"
+            />
             <div className="text-center">
               Or, if you already have and account, <br />
               <a

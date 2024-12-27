@@ -63,7 +63,7 @@ export const LoginForm = ({
             />
           </div>
           <ValidationHint hint={submitError} />
-          <SubmitButton label="Submit" />
+          <SubmitButton label="Log in" intent="save" />
           <div className="flex flex-col text-center gap-2">
             <NavLink
               to="/recovery"

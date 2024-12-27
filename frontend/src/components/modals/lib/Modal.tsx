@@ -1,13 +1,13 @@
 import React, { JSX } from "react";
 
 export const Modal = ({
-  modalTitle,
   children,
+  modalTitle,
   isClose,
   handleIsOpen,
 }: {
-  modalTitle: string;
   children: JSX.Element;
+  modalTitle?: string;
   isClose?: boolean;
   handleIsOpen?: () => void;
 }) => (

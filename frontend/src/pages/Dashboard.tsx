@@ -1,5 +1,5 @@
 import React, { JSX } from "react";
-import { Card, CreateMenu, ProfileDetails } from "../components";
+import { Card, CreateMenu, LogOut, ProfileDetails } from "../components";
 
 export const Dashboard = () => {
   return (
@@ -9,7 +9,7 @@ export const Dashboard = () => {
           Welcome back, Fiera!
         </p>
         <div className="flex gap-10 text-[18px]">
-          <p className="cursor-pointer">Log out</p>
+          <LogOut />
           <ProfileDetails />
           <CreateMenu />
         </div>

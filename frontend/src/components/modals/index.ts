@@ -1,1 +1,2 @@
-export * from './ProfileDetailsModal'
+export * from "./ProfileDetailsModal";
+export * from "./LogOutModal";

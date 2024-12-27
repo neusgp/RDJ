@@ -18,7 +18,7 @@ export const ProfileDetailsModal = ({
           type="string"
           placeholder="Enter city or team"
         />
-        <SubmitButton label="Save" />
+        <SubmitButton label="Save" intent="save" />
       </form>
     </Modal>
   );
