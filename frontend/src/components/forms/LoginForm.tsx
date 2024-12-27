@@ -26,52 +26,61 @@ export const LoginForm = ({
     e.preventDefault();
     setSuccess(false);
 
-    const { error } = await login({ email, password });
-    setSubmitError(error);
+    const { success, error } = await login({ email, password });
+
+    if (!!success) {
+      setSuccess(success);
+      //todo: this is going to be a separate function
+      setTimeout(() => {
+        window.location.href = "http://localhost:3000/dashboard";
+      }, 1500);
+    } else if (!!error) setSubmitError(error);
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
-      <div className="flex flex-col justify-center gap-6">
-        <p className="text-lg font-bold">Log in</p>
-        <div className="space-y-2">
-          <InputField
-            label="Email"
-            type="string"
-            required
-            handleValue={handleEmailValue}
-          />
-          <InputField
-            label="Password"
-            type="password"
-            required
-            handleValue={handlePasswordValue}
-          />
-        </div>
-        <ValidationHint hint={submitError} />
-        <SubmitButton label="Submit" />
-        <div className="flex flex-col text-center gap-2">
-          <NavLink
-            to="/recovery"
-            className="text-slate-400 text-sm cursor-pointer underline">
-            I forgot my password
-          </NavLink>
-          <p>
-            Or, if you don't have and account, <br />{" "}
-            <a
-              className="cursor-pointer underline"
-              onClick={() => setIsRegister(true)}>
-              Register
-            </a>
-          </p>
-        </div>
-        {/* temporary */}
-        {success && (
-          <p className="font-bold text-green-500">
-            User is successfully loged in!
-          </p>
-        )}
-      </div>
-    </form>
+    <>
+      {success ? (
+        <p className="font-bold text-green-500">
+          Login successful, preparing your dashboard...
+        </p>
+      ) : (
+        <form
+          onSubmit={(e) => handleSubmit(e)}
+          className="flex flex-col justify-center gap-6">
+          <p className="text-lg font-bold">Log in</p>
+          <div className="space-y-2">
+            <InputField
+              label="Email"
+              type="string"
+              required
+              handleValue={handleEmailValue}
+            />
+            <InputField
+              label="Password"
+              type="password"
+              required
+              handleValue={handlePasswordValue}
+            />
+          </div>
+          <ValidationHint hint={submitError} />
+          <SubmitButton label="Submit" />
+          <div className="flex flex-col text-center gap-2">
+            <NavLink
+              to="/recovery"
+              className="text-slate-400 text-sm cursor-pointer underline">
+              I forgot my password
+            </NavLink>
+            <p>
+              Or, if you don't have and account, <br />{" "}
+              <a
+                className="cursor-pointer underline"
+                onClick={() => setIsRegister(true)}>
+                Register
+              </a>
+            </p>
+          </div>
+        </form>
+      )}
+    </>
   );
 };

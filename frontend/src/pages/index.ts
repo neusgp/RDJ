@@ -1,3 +1,4 @@
-export * from './Dashboard'
-export * from './LandingPage'
-export * from './PasswordRecovery'
+export * from "./Dashboard";
+export * from "./LandingPage";
+export * from "./PasswordRecovery";
+
