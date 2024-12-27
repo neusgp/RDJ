@@ -63,7 +63,6 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(401).json({
-      //todo: is this a good message?
       error: "Login failed. Make sure you enter the right credentials.",
     });
   }

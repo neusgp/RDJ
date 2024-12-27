@@ -11,7 +11,7 @@ export const authorise = async (): Promise<AuthorisationResult> => {
     credentials: "include",
   }).then(async (res) => {
     if (res.ok) {
-      window.location.href = "http://localhost:3000/dashboard";
+      //window.location.href = "http://localhost:3000/dashboard";
       success = true;
 
     } else {
