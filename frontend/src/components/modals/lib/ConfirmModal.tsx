@@ -16,7 +16,7 @@ export const ConfirmModal = ({
       {children}
       <div className="flex gap-4">
         <SubmitButton label="Log out" intent="submit" />
-        <SubmitButton label="Cancel" intent="cancel" />
+        <SubmitButton label="Cancel" intent="cancel" onClick={handleIsOpen} />
       </div>
     </div>
   </>

@@ -17,7 +17,7 @@ export const Modal = ({
       onClick={() => handleIsOpen && handleIsOpen()}></div>
     <div className="absolute w-[40%] h-min-content bg-white z-20 right-[50%] top-[50%] translate-y-[-50%] translate-x-[50%] rounded-lg flex flex-col py-4 px-6 gap-8">
       <div className="flex justify-between">
-        <p className="text-xl font-bold">{modalTitle}</p>
+        <p className="font-bold">{modalTitle}</p>
         {/* todo: thsi should be an icon */}
         {isClose && (
           <p
