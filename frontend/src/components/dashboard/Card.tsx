@@ -1,5 +1,7 @@
 import React from "react";
 
 export const Card = () => {
-  return <div className="border border-2 h-[200px] rounded-lg"></div>;
+  return (
+    <div className="border border-slate-100 shadow-md h-[200px] rounded-lg"></div>
+  );
 };
