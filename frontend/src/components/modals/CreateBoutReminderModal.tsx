@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Modal } from "../modals/lib";
+import React from "react";
+import { Modal } from "./lib";
 
 export const CreateBoutReminderModal = ({
   handleIsOpen,

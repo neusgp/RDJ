@@ -28,7 +28,7 @@ export const SubmitButton = ({
     <button
       className={`${getButtonColor(
         intent
-      )} py-2 px-4 self-center rounded text-red-900 text-sm`}
+      )} py-2 px-4 self-center rounded text-sm`}
       type="submit"
       disabled={isDisabled}
       onClick={() => onClick && onClick()}>

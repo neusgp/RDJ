@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { CreateMenuOptions, CreateModal } from "./CreateMenuOptions";
-
-type CreateType = "note" | "bout" | "goal";
+import { CreateMenuOptions } from "./CreateMenuOptions";
+import { CreateModal } from "../modals";
+import { CreateType } from "./lib";
 
 export const CreateMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
