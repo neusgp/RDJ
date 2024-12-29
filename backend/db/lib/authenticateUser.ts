@@ -11,7 +11,7 @@ export const authenticateUser = async ({
   UserValidation.parse({ email, password });
 
   const user = await User.findOne({ where: { email } });
-  
+
   if (!user) throw new Error("User doesn't exist");
 
   const { id, password: retrievedPassword, email: retrievedEmail } = user;
