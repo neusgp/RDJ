@@ -6,10 +6,11 @@ import { DataTypes, Model, ModelDefined } from "sequelize";
 
 const { STRING, INTEGER } = DataTypes;
 
+//todo: add regex validation!!!!
 export const ProfileValidation = z.object({
   name: z.string().optional(),
   derbyName: z.string().optional(),
-  number: z.number().optional(),
+  number: z.string().optional(), //:S number = string?
   league: z.string().optional(),
   userId: z.string(),
 });
@@ -29,7 +30,7 @@ export type PublicProfile = Pick<
 export const Profile = sequelize.define<ProfileInstance>("profile", {
   name: { type: STRING },
   derbyName: { type: STRING },
-  number: { type: INTEGER },
+  number: { type: STRING },
   league: { type: STRING },
   userId: { type: STRING },
 });

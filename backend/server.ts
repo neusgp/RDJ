@@ -3,6 +3,7 @@ import cors from "cors";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import { createUser, sequelize as db, authenticateUser } from "./db";
+import { saveProfile } from "./db/lib/saveProfile";
 
 const { SECRET_JWT } = process.env;
 
@@ -75,7 +76,6 @@ app.get("/authorise", (req, res) => {
   try {
     const data = jwt.verify(token, SECRET_JWT);
     res.status(200).json({ data });
-
   } catch (err) {
     console.error(err);
     res.status(401).json({ error: "Access not authorised" });
@@ -84,6 +84,21 @@ app.get("/authorise", (req, res) => {
 
 //logout
 //app.post("/logout", (req, res) => {});
+
+//save-profile
+app.post("/save-profile", async (req, res) => {
+  const { name, derbyName, number, league, userId } = req.body;
+
+  try {
+    await saveProfile({ name, derbyName, number, league, userId });
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again later" });
+  }
+});
 
 db.sync().then((req) => {
   app.listen(8081, () => {

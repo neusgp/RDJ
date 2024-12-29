@@ -15,7 +15,7 @@ export const InputField = ({
   min?: number;
   required?: boolean;
   placeholder?: string;
-  handleValue?: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleValue: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
     <div>
@@ -26,7 +26,7 @@ export const InputField = ({
         min={min}
         placeholder={placeholder}
         required={required}
-        onChange={(e) => handleValue && handleValue(e)}></input>
+        onChange={(e) => handleValue(e)}></input>
     </div>
   );
 };
