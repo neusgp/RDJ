@@ -1,4 +1,5 @@
 import express from "express";
+
 import cors from "cors";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -17,6 +18,22 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use((req: { session: SessionData }, res, next) => {
+  const token = req.cookies.access_token;
+  let data = null;
+
+  req.session = { user: null };
+
+  try {
+    data = jwt.verify(token, SECRET_JWT);
+    req.session.user = data;
+  } catch (error) {
+    console.error(error);
+  }
+
+  next();
+});
 
 app.get("/", (req, res) => {
   res.send("ok");
