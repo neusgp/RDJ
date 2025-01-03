@@ -1,6 +1,6 @@
 import * as express from "express";
 
-type Session = {
+declare type Session = {
   user?: string | jwt.JwtPayload | null;
 };
 

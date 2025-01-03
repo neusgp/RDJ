@@ -3,9 +3,11 @@ import { SubmitButton } from "../../forms";
 
 export const ConfirmModal = ({
   children,
+  onConfirm,
   handleIsOpen,
 }: {
   children: JSX.Element;
+  onConfirm: () => void;
   handleIsOpen?: () => void;
 }) => (
   <>
@@ -15,7 +17,7 @@ export const ConfirmModal = ({
     <div className="absolute w-[40%] h-min-content bg-white z-20 right-[50%] top-[50%] translate-y-[-50%] translate-x-[50%] rounded-lg flex flex-col items-center py-4 px-6 gap-8">
       {children}
       <div className="flex gap-4">
-        <SubmitButton label="Log out" intent="submit" />
+        <SubmitButton label="Log out" intent="submit" onClick={onConfirm} />
         <SubmitButton label="Cancel" intent="cancel" onClick={handleIsOpen} />
       </div>
     </div>

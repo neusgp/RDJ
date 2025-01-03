@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use((req: { session: SessionData }, res, next) => {
+app.use((req, res, next) => {
   const token = req.cookies.access_token;
   let data = null;
 
@@ -28,15 +28,14 @@ app.use((req: { session: SessionData }, res, next) => {
   try {
     data = jwt.verify(token, SECRET_JWT);
     req.session.user = data;
-  } catch (error) {
-    console.error(error);
-  }
+  } catch {}
 
   next();
 });
 
 app.get("/", (req, res) => {
-  res.send("ok");
+  const { user } = req.session || {};
+  res.status(200).json({ user });
 });
 
 //User Authentication
@@ -59,7 +58,7 @@ app.post("/register", async (req, res) => {
 //login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(req.body);
   try {
     const user = await authenticateUser({
       email,
@@ -69,7 +68,7 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign({ userEmail: user.email, id: user.id }, SECRET_JWT, {
       expiresIn: "1h",
     });
-
+    console.log(token);
     res
       .cookie("access_token", token, {
         httpOnly: true,
@@ -88,19 +87,20 @@ app.post("/login", async (req, res) => {
 
 //authorise
 app.get("/authorise", (req, res) => {
-  const token = req.cookies.access_token;
+  const { user } = req.session || {};
+  if (!user) res.status(401).json({ error: "Access not authorised" });
 
-  try {
-    const data = jwt.verify(token, SECRET_JWT);
-    res.status(200).json({ data });
-  } catch (err) {
-    console.error(err);
-    res.status(401).json({ error: "Access not authorised" });
-  }
+  res.status(200).json({ user });
 });
 
 //logout
-//app.post("/logout", (req, res) => {});
+app.post("/logout", (req, res) => {
+  try {
+    res.clearCookie("acces_token").json({ message: "logout successful" });
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 //save-profile
 app.post("/save-profile", async (req, res) => {
