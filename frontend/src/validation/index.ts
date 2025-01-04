@@ -1,2 +1,2 @@
-export {EmailValidation, PasswordValidation} from './user'
-export * from './forms'
+export { EmailValidation, PasswordValidation } from "./user";
+export * from "./forms";

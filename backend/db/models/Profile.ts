@@ -1,6 +1,6 @@
-import { optional, z } from "zod";
+import { z } from "zod";
 import { sequelize } from "../config";
-import { DataTypes, Model, ModelDefined } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 
 // to-do: separate validations and types in different files
 

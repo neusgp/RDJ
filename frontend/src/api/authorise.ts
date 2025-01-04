@@ -1,6 +1,6 @@
 import { AuthorisationResult } from "./types";
 
-
+//this needs to be refactored. It's not necessary to have both success and error.
 export const authorise = async (): Promise<AuthorisationResult> => {
   let success;
   let error;
@@ -11,14 +11,12 @@ export const authorise = async (): Promise<AuthorisationResult> => {
     credentials: "include",
   }).then(async (res) => {
     if (res.ok) {
-      //window.location.href = "http://localhost:3000/dashboard";
       success = true;
-
     } else {
       const { error: authorisationError } = await res.json();
       error = authorisationError;
     }
   });
 
-  return { success , error };
+  return { success, error };
 };

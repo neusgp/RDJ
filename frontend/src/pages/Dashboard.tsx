@@ -1,24 +1,37 @@
-import React, { JSX } from "react";
+import React, { useEffect } from "react";
 import { Card, CreateMenu, LogOut, ProfileDetails } from "../components";
+import { useDashboard } from "../hooks";
 
 export const Dashboard = () => {
+  const { data, loading } = useDashboard();
+
+  const { profile } = data || {};
+  const { derbyName } = profile || {};
+
   return (
     <div className="h-screen p-6">
-      <div className="flex justify-between h-[200px]">
-        <p className="font-bold text-[38px] text-slate-600">
-          Welcome back, Fiera!
-        </p>
-        <div className="flex gap-10">
-          <LogOut />
-          <ProfileDetails />
-          <CreateMenu />
-        </div>
-      </div>
-      <div className="space-y-2">
-        <Card />
-        <Card />
-        <Card />
-      </div>
+      {loading ? (
+        <p>loading</p>
+      ) : (
+        <>
+          <div className="flex justify-between h-[200px]">
+            <p className="font-bold text-[38px] text-slate-600">
+              Welcome
+              {derbyName ? ` back, ${derbyName}!` : "!"}
+            </p>
+            <div className="flex gap-10">
+              <LogOut />
+              <ProfileDetails />
+              <CreateMenu />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Card />
+            <Card />
+            <Card />
+          </div>
+        </>
+      )}
     </div>
   );
 };
