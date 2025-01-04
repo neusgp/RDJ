@@ -1,7 +1,7 @@
 import express from "express";
 
 import cors from "cors";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import { createUser, sequelize as db, authenticateUser } from "./db";
 import { saveProfile } from "./db/lib/saveProfile";
@@ -58,7 +58,6 @@ app.post("/register", async (req, res) => {
 //login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
   try {
     const user = await authenticateUser({
       email,
@@ -68,7 +67,6 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign({ userEmail: user.email, id: user.id }, SECRET_JWT, {
       expiresIn: "1h",
     });
-    console.log(token);
     res
       .cookie("access_token", token, {
         httpOnly: true,
@@ -96,7 +94,8 @@ app.get("/authorise", (req, res) => {
 //logout
 app.post("/logout", (req, res) => {
   try {
-    res.clearCookie("acces_token").json({ message: "logout successful" });
+    res.clearCookie("access_token");
+    res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
     console.error(err);
   }
