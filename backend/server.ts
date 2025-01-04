@@ -3,8 +3,14 @@ import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import { createUser, sequelize as db, authenticateUser } from "./db";
+import {
+  createUser,
+  sequelize as db,
+  authenticateUser,
+  getDashboard,
+} from "./db";
 import { saveProfile } from "./db/lib/saveProfile";
+import { authorise } from "./lib";
 
 const { SECRET_JWT } = process.env;
 
@@ -85,10 +91,7 @@ app.post("/login", async (req, res) => {
 
 //authorise
 app.get("/authorise", (req, res) => {
-  const { user } = req.session || {};
-  if (!user) res.status(401).json({ error: "Access not authorised" });
-
-  res.status(200).json({ user });
+  authorise(req, res);
 });
 
 //logout
@@ -108,6 +111,23 @@ app.post("/save-profile", async (req, res) => {
   try {
     await saveProfile({ name, derbyName, number, league, userId });
     res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again later" });
+  }
+});
+
+//get-dashboard
+app.get("/get-dashboard", async (req, res) => {
+  const { id } = req.session?.user;
+  const userId = id.toString();
+
+  try {
+    const data = await getDashboard({ id: userId });
+    console.log("data", data);
+    res.json(data);
   } catch (err) {
     console.error(err);
     res

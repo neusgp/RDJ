@@ -1,10 +1,10 @@
 import { Profile, ProfileProps, ProfileValidation } from "../models";
 
-const getPropsTpUpdate = (props: ProfileProps) => {
-  const toDrop = Object.entries(props).filter(([key, value]) => !value);
+// const getPropsTpUpdate = (props: ProfileProps) => {
+//   const toDrop = Object.entries(props).filter(([key, value]) => !value);
 
-  console.log("to DROP!!", toDrop);
-};
+//   console.log("to DROP!!", toDrop);
+// };
 
 export const saveProfile = async ({
   name,
@@ -29,7 +29,7 @@ export const saveProfile = async ({
 
     const props = { name, derbyName, number, league };
 
-    const toDrop = getPropsTpUpdate({ ...props, userId });
+    //const toDrop = getPropsTpUpdate({ ...props, userId });
 
     await Profile.update(
       { name, derbyName, number, league },
