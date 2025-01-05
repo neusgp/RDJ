@@ -1,48 +1,42 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { InputField, SubmitButton, ValidationHint } from "./lib";
 import { z } from "zod";
-import {
-  EmailValidation,
-  PasswordValidation,
-  RegisterFormValidation,
-} from "../../validation";
+import { RegisterFormValidation } from "../../validation";
 
-//rename to something reusable
+//extract funtion
 export type RegisterFormProps = z.infer<typeof RegisterFormValidation>;
+
+const getRegisterFormValues = (
+  e: React.FormEvent<HTMLFormElement>
+): RegisterFormProps => {
+  const formData = new FormData(e.currentTarget);
+
+  let formValues = {};
+  for (let [key, value] of formData.entries()) {
+    formValues = { ...formValues, [key]: value };
+  }
+  return formValues as RegisterFormProps;
+};
 
 export const RegisterForm = ({
   setIsRegister,
 }: {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
-  const [emailError, setEmailError] = useState<string | undefined>();
-  const [passwordError, setPasswordError] = useState<string | undefined>();
   const [submitError, setSubmitError] = useState<string | undefined>();
-
   const [success, setSuccess] = useState<boolean>(false);
-
-  //todo: see if we can repeat less code
-  const handleEmailValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const { error } = EmailValidation.safeParse({ email });
-    setEmailError(error?.format().email?._errors.join(","));
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const { error } = PasswordValidation.safeParse({ password });
-    setPasswordError(error?.format().password?._errors.join(","));
-    setPassword(e.target.value);
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    const { email, password } = getRegisterFormValues(e);
     const { error } = RegisterFormValidation.safeParse({ email, password });
     if (!!error)
-      return setSubmitError("The credentials are not valid. Try again");
+      //fix this code!
+      return setSubmitError(
+        `${error?.format().email?._errors.join(",")}, ${error
+          ?.format()
+          .password?._errors.join(",")}`
+      );
 
     //for now
     fetch("http://localhost:8081/register", {
@@ -58,8 +52,6 @@ export const RegisterForm = ({
       }
     });
   };
-
-  const isDisabled = !!emailError || !!passwordError || !!submitError;
 
   return (
     <>
@@ -80,27 +72,17 @@ export const RegisterForm = ({
           <div className="flex flex-col justify-center gap-6">
             <p className="text-lg font-bold">Register</p>
             <div className="space-y-2">
-              <InputField
-                label="Email"
-                type="string"
-                required
-                handleValue={handleEmailValue}
-              />
-              <ValidationHint hint={emailError} />
+              <InputField label="Email" type="string" name="email" required />
+
               <InputField
                 label="Password"
                 type="password"
+                name="password"
                 required
-                handleValue={handlePasswordValue}
               />
-              <ValidationHint hint={passwordError} />
             </div>
             <ValidationHint hint={submitError} />
-            <SubmitButton
-              label="Register"
-              isDisabled={isDisabled}
-              intent="save"
-            />
+            <SubmitButton label="Register" intent="save" />
             <div className="text-center">
               Or, if you already have and account, <br />
               <a

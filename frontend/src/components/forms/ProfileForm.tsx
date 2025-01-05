@@ -5,10 +5,12 @@ import { useProfile } from "../../hooks";
 import { ProfileProps } from "../../@types";
 
 //todo: should this be reusable???
-const getProfileFormValues = (e: React.FormEvent<HTMLFormElement>) => {
+const getProfileFormValues = (
+  e: React.FormEvent<HTMLFormElement>
+): ProfileProps => {
   const formData = new FormData(e.currentTarget);
 
-  let formValues: ProfileProps = {};
+  let formValues = {};
   for (let [key, value] of formData.entries()) {
     formValues = { ...formValues, [key]: value };
   }

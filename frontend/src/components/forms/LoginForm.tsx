@@ -2,29 +2,36 @@ import React, { ChangeEvent, useState } from "react";
 import { InputField, SubmitButton, ValidationHint } from "./lib";
 import { NavLink } from "react-router-dom";
 import { login } from "../../api";
+import { RegisterFormValidation } from "../../validation";
+import { z } from "zod";
+
+type LoginProps = z.infer<typeof RegisterFormValidation>;
+
+const getLoginFormValues = (
+  e: React.FormEvent<HTMLFormElement>
+): LoginProps => {
+  const formData = new FormData(e.currentTarget);
+
+  let formValues = {};
+  for (let [key, value] of formData.entries()) {
+    formValues = { ...formValues, [key]: value };
+  }
+  return formValues as LoginProps;
+};
 
 export const LoginForm = ({
   setIsRegister,
 }: {
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [submitError, setSubmitError] = useState<string | undefined>();
   const [success, setSuccess] = useState<boolean>(false);
-
-  //todo: see if we can repeat less code-> extract and reuse functions, etc.
-  const handleEmailValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSuccess(false);
+
+    const { email, password } = getLoginFormValues(e);
 
     const { success, error } = await login({ email, password });
 
@@ -49,17 +56,12 @@ export const LoginForm = ({
           className="flex flex-col justify-center gap-6">
           <p className="text-lg font-bold">Log in</p>
           <div className="space-y-2">
-            <InputField
-              label="Email"
-              type="string"
-              required
-              handleValue={handleEmailValue}
-            />
+            <InputField label="Email" type="string" name="email" required />
             <InputField
               label="Password"
               type="password"
+              name="password"
               required
-              handleValue={handlePasswordValue}
             />
           </div>
           <ValidationHint hint={submitError} />
