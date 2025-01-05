@@ -49,7 +49,7 @@ export const ProfileForm = () => {
       credentials: "include",
     }).then(async (res) => {
       if (res.ok) {
-        console.log("success");
+        //
       } else {
         const { error } = await res.json();
         setSubmitError(error);

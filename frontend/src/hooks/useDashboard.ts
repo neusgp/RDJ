@@ -13,7 +13,7 @@ export const useDashboard = () => {
       .then(({ success }) => {
         if (!success) return (window.location.href = "http://localhost:3000/"); //out -> this will be the /login
       })
-      .catch((err) => console.log(err));
+      .catch();
 
     fetch("http://localhost:8081/get-dashboard", {
       method: "GET",
@@ -25,7 +25,7 @@ export const useDashboard = () => {
         setData(data);
         setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch();
   }, []);
 
   return { loading, data };

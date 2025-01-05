@@ -16,7 +16,7 @@ export const useProfile = () => {
         setData(data);
         setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch();
   }, []);
 
   return { loading, data };

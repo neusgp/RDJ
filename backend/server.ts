@@ -131,7 +131,6 @@ app.post("/save-profile", async (req, res) => {
 app.get("/get-dashboard", async (req, res) => {
   try {
     const data = await getDashboard({ id: getUserId(req) });
-    console.log(data);
     res.json(data);
   } catch (err) {
     console.error(err);
