@@ -26,8 +26,6 @@ export const ProfileForm = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
     const { error } = ProfileFormValidation.safeParse({
       name,
       derbyName,
