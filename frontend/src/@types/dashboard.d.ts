@@ -6,4 +6,4 @@ type ProfileProps = z.infer<typeof ProfileFormValidation> & {
 };
 
 //todo: add more props as I have more data available
-export type DashboardProps = { profile: ProfileProps };
+export type DashboardProps = { profile: Pick<ProfileProps, "derbyName"> };

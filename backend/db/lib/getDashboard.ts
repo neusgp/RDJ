@@ -1,7 +1,7 @@
 import { getProfile } from "./getProfile";
 
 export const getDashboard = async ({ id }: { id: string }) => {
-  const profile = await getProfile({ id });
+  const { derbyName } = (await getProfile({ id })) || {};
 
-  return { profile: profile };
+  return { profile: { derbyName } };
 };
