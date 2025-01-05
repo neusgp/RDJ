@@ -11,6 +11,7 @@ import {
 } from "./db";
 import { saveProfile } from "./db/lib/saveProfile";
 import { authorise } from "./lib";
+import { getUserId } from "./helpers";
 
 const { SECRET_JWT } = process.env;
 
@@ -106,10 +107,16 @@ app.post("/logout", (req, res) => {
 
 //save-profile
 app.post("/save-profile", async (req, res) => {
-  const { name, derbyName, number, league, userId } = req.body;
+  const { name, derbyName, number, league } = req.body;
 
   try {
-    await saveProfile({ name, derbyName, number, league, userId });
+    await saveProfile({
+      name,
+      derbyName,
+      number,
+      league,
+      userId: getUserId(req),
+    });
     res.status(200).json({ success: true });
   } catch (err) {
     console.error(err);
@@ -121,11 +128,8 @@ app.post("/save-profile", async (req, res) => {
 
 //get-dashboard
 app.get("/get-dashboard", async (req, res) => {
-  const { id } = req.session?.user;
-  const userId = id.toString();
-
   try {
-    const data = await getDashboard({ id: userId });
+    const data = await getDashboard({ id: getUserId(req) });
     console.log("data", data);
     res.json(data);
   } catch (err) {

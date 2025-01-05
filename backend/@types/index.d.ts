@@ -11,3 +11,7 @@ declare global {
     }
   }
 }
+
+declare global {
+  type Id = string;
+}

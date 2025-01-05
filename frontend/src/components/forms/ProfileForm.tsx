@@ -33,7 +33,6 @@ export const ProfileForm = () => {
       derbyName,
       number,
       league,
-      userId: "1", //todo: replace with real userId
     });
 
     if (!!error)
@@ -45,7 +44,8 @@ export const ProfileForm = () => {
     fetch("http://localhost:8081/save-profile", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ name, derbyName, number, league, userId: "1" }),
+      body: JSON.stringify({ name, derbyName, number, league }),
+      credentials: "include",
     }).then(async (res) => {
       if (res.ok) {
         console.log("success");

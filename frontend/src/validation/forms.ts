@@ -12,5 +12,4 @@ export const ProfileFormValidation = z.object({
   derbyName: z.string().optional(),
   number: z.string().optional(),
   league: z.string().optional(),
-  userId: z.string(),
 });
