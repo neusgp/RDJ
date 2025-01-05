@@ -2,33 +2,28 @@ import React, { ChangeEvent, useState } from "react";
 import { InputField, SubmitButton } from "./lib";
 import { ProfileFormValidation } from "../../validation";
 import { useProfile } from "../../hooks";
+import { ProfileProps } from "../../@types";
+
+//todo: should this be reusable???
+const getProfileFormValues = (e: React.FormEvent<HTMLFormElement>) => {
+  const formData = new FormData(e.currentTarget);
+
+  let formValues: ProfileProps = {};
+  for (let [key, value] of formData.entries()) {
+    formValues = { ...formValues, [key]: value };
+  }
+  return formValues;
+};
 
 export const ProfileForm = () => {
-  const [name, setName] = useState<string>();
-  const [derbyName, setDerbyName] = useState<string>();
-  const [number, setNumber] = useState<string>();
-  const [league, setLeague] = useState<string>();
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
 
   const { data: initialValues } = useProfile();
 
-  const handleNameValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-  const handleDerbyNameValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setDerbyName(e.target.value);
-  };
-
-  const handleNumberValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setNumber(e.target.value);
-  };
-
-  const handleLeagueValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setLeague(e.target.value);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const { name, derbyName, number, league } = getProfileFormValues(e);
+
     const { error } = ProfileFormValidation.safeParse({
       name,
       derbyName,
@@ -63,29 +58,29 @@ export const ProfileForm = () => {
       onSubmit={(e) => handleSubmit(e)}>
       <InputField
         label="Real name"
+        name="name"
         type="string"
         defaultValue={initialValues?.name}
-        handleValue={handleNameValue}
       />
       <InputField
         label="Derby name"
+        name="derbyName"
         type="string"
         defaultValue={initialValues?.derbyName}
-        handleValue={handleDerbyNameValue}
       />
       <InputField
         label="Number"
+        name="number"
         type="number"
         defaultValue={initialValues?.number}
         min={0}
-        handleValue={handleNumberValue}
       />
       <InputField
         label="League"
+        name="league"
         type="string"
         defaultValue={initialValues?.league}
         placeholder="Enter city or team"
-        handleValue={handleLeagueValue}
       />
       <SubmitButton label="Save" intent="save" />
     </form>
