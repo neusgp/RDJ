@@ -1,14 +1,17 @@
 import React, { ChangeEvent, useState } from "react";
 import { InputField, SubmitButton } from "./lib";
 import { ProfileFormValidation } from "../../validation";
+import { useProfile } from "../../hooks";
 
 export const ProfileForm = () => {
   const [name, setName] = useState<string>();
   const [derbyName, setDerbyName] = useState<string>();
   const [number, setNumber] = useState<string>();
   const [league, setLeague] = useState<string>();
-
+  //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
+
+  const { data: initialValues } = useProfile();
 
   const handleNameValue = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -61,22 +64,26 @@ export const ProfileForm = () => {
       <InputField
         label="Real name"
         type="string"
+        defaultValue={initialValues?.name}
         handleValue={handleNameValue}
       />
       <InputField
         label="Derby name"
         type="string"
+        defaultValue={initialValues?.derbyName}
         handleValue={handleDerbyNameValue}
       />
       <InputField
         label="Number"
         type="number"
+        defaultValue={initialValues?.number}
         min={0}
         handleValue={handleNumberValue}
       />
       <InputField
         label="League"
         type="string"
+        defaultValue={initialValues?.league}
         placeholder="Enter city or team"
         handleValue={handleLeagueValue}
       />

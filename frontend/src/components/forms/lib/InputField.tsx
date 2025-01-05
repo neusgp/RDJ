@@ -5,6 +5,7 @@ type InputType = "string" | "number" | "password";
 export const InputField = ({
   label,
   type,
+  defaultValue,
   min,
   required = false,
   placeholder,
@@ -12,6 +13,7 @@ export const InputField = ({
 }: {
   label?: string;
   type: InputType;
+  defaultValue?: string;
   min?: number;
   required?: boolean;
   placeholder?: string;
@@ -23,6 +25,7 @@ export const InputField = ({
       <input
         className="w-[100%] border p-1"
         type={type}
+        defaultValue={defaultValue}
         min={min}
         placeholder={placeholder}
         required={required}

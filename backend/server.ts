@@ -8,6 +8,7 @@ import {
   sequelize as db,
   authenticateUser,
   getDashboard,
+  getProfile,
 } from "./db";
 import { saveProfile } from "./db/lib/saveProfile";
 import { authorise } from "./lib";
@@ -130,7 +131,20 @@ app.post("/save-profile", async (req, res) => {
 app.get("/get-dashboard", async (req, res) => {
   try {
     const data = await getDashboard({ id: getUserId(req) });
-    console.log("data", data);
+    console.log(data);
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again later" });
+  }
+});
+
+//get-profile
+app.get("/get-profile", async (req, res) => {
+  try {
+    const data = await getProfile({ id: getUserId(req) });
     res.json(data);
   } catch (err) {
     console.error(err);
