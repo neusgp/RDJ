@@ -13,3 +13,7 @@ export const ProfileFormValidation = z.object({
   number: z.string().optional(),
   league: z.string().optional(),
 });
+
+const goalValidation = z.string();
+
+export const GoalsFromValidation = z.array(goalValidation);

@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Card, CreateMenu, LogOut, ProfileDetails } from "../components";
 import { useDashboard } from "../hooks";
 
 export const Dashboard = () => {
   const { data, loading } = useDashboard();
 
-  const { profile } = data || {};
+  const { profile, goals } = data || {};
   const { derbyName } = profile || {};
+
+  console.log(data);
 
   return (
     <div className="h-screen p-6">

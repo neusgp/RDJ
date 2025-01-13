@@ -9,8 +9,11 @@ import {
   authenticateUser,
   getDashboard,
   getProfile,
+  saveProfile,
+  getGoals,
+  saveGoal,
+  Goal,
 } from "./db";
-import { saveProfile } from "./db/lib/saveProfile";
 import { authorise } from "./lib";
 import { getUserId } from "./helpers";
 
@@ -127,6 +130,26 @@ app.post("/save-profile", async (req, res) => {
   }
 });
 
+app.post("/save-goals", async (req, res) => {
+  console.log(req.body);
+  const { goals } = req.body;
+
+  goals.forEach(async (goal: Goal) => {
+    try {
+      await saveGoal({
+        goal,
+        userId: getUserId(req),
+      });
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .json({ error: "Something went wrong. Please try again later" });
+    }
+  });
+});
+
 //get-dashboard
 app.post("/get-dashboard", async (req, res) => {
   try {
@@ -144,6 +167,18 @@ app.post("/get-dashboard", async (req, res) => {
 app.post("/get-profile", async (req, res) => {
   try {
     const data = await getProfile({ id: getUserId(req) });
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Something went wrong. Please try again later" });
+  }
+});
+
+app.post("/get-goals", async (req, res) => {
+  try {
+    const data = await getGoals({ id: getUserId(req) });
     res.json(data);
   } catch (err) {
     console.error(err);
