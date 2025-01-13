@@ -4,7 +4,7 @@ import { ProfileFormValidation } from "../../validation";
 import { useProfile } from "../../hooks";
 import { ProfileProps } from "../../@types";
 
-//todo: should this be reusable???
+//todo: this should be reused
 const getProfileFormValues = (
   e: React.FormEvent<HTMLFormElement>
 ): ProfileProps => {
@@ -24,6 +24,7 @@ export const ProfileForm = () => {
   const { data: initialValues } = useProfile();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const { name, derbyName, number, league } = getProfileFormValues(e);
 
     const { error } = ProfileFormValidation.safeParse({
@@ -46,7 +47,7 @@ export const ProfileForm = () => {
       credentials: "include",
     }).then(async (res) => {
       if (res.ok) {
-        //
+        window.location.reload();
       } else {
         const { error } = await res.json();
         setSubmitError(error);

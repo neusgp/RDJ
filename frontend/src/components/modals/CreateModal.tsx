@@ -1,6 +1,7 @@
 import React from "react";
 import { CreateType, CreateTypes } from "../menus";
 import { CreateBoutReminderModal } from "./CreateBoutReminderModal";
+import { CreateSeasonGoalModal } from "./CreateSeasonGoalModal";
 
 export const CreateModal = ({
   createType,
@@ -20,7 +21,7 @@ export const CreateModal = ({
             <CreateBoutReminderModal handleIsOpen={handleIsOpen} />
           )}
           {createType === CreateTypes.goal && (
-            <CreateBoutReminderModal handleIsOpen={handleIsOpen} />
+            <CreateSeasonGoalModal handleIsOpen={handleIsOpen} />
           )}
         </>
       ) : (

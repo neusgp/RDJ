@@ -22,7 +22,7 @@ export const InputField = ({
   handleValue?: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
-    <div>
+    <div className="w-[100%]">
       {label && <p>{label}</p>}
       <input
         className="w-[100%] border p-1"
