@@ -16,7 +16,7 @@ export const useDashboard = () => {
       .catch();
 
     fetch("http://localhost:8081/get-dashboard", {
-      method: "GET",
+      method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
     })

@@ -128,7 +128,7 @@ app.post("/save-profile", async (req, res) => {
 });
 
 //get-dashboard
-app.get("/get-dashboard", async (req, res) => {
+app.post("/get-dashboard", async (req, res) => {
   try {
     const data = await getDashboard({ id: getUserId(req) });
     res.json(data);
@@ -141,7 +141,7 @@ app.get("/get-dashboard", async (req, res) => {
 });
 
 //get-profile
-app.get("/get-profile", async (req, res) => {
+app.post("/get-profile", async (req, res) => {
   try {
     const data = await getProfile({ id: getUserId(req) });
     res.json(data);

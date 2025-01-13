@@ -7,7 +7,7 @@ export const useProfile = () => {
 
   useEffect(() => {
     fetch("http://localhost:8081/get-profile", {
-      method: "GET",
+      method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
     })
