@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CreateMenu, LogOut, ProfileDetails } from "../components";
+import {
+  Card,
+  CreateMenu,
+  LogOut,
+  ProfileDetails,
+  SeasonGoals,
+} from "../components";
 import { useDashboard } from "../hooks";
 
 export const Dashboard = () => {
@@ -16,7 +22,7 @@ export const Dashboard = () => {
         <p>loading</p>
       ) : (
         <>
-          <div className="flex justify-between h-[200px]">
+          <div className="flex justify-between">
             <p className="font-bold text-[38px] text-slate-600">
               Welcome
               {derbyName ? ` back, ${derbyName}!` : "!"}
@@ -27,6 +33,7 @@ export const Dashboard = () => {
               <CreateMenu />
             </div>
           </div>
+          <SeasonGoals goals={goals} />
           <div className="space-y-2">
             <Card />
             <Card />

@@ -1,9 +1,15 @@
 import { z } from "zod";
 import { ProfileFormValidation } from "../validation";
 
-type ProfileProps = z.infer<typeof ProfileFormValidation> & {
-  id?: string;
-};
+//profile
+type ProfileProps = z.infer<typeof ProfileFormValidation>;
 
-//todo: add more props as I have more data available
-export type DashboardProps = { profile: Pick<ProfileProps, "derbyName"> };
+//season goals
+type Goal = { id: Id; goal: string };
+type GoalsProps = Goal[];
+
+export type DashboardProps = {
+  profile: Pick<ProfileProps, "derbyName">;
+  goals: GoalsProps;
+  //todo: add more props as I have more data
+};

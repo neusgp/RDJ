@@ -1,43 +1,35 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { InputField, SubmitButton } from "./lib";
 import { GoalsFromValidation } from "../../validation";
 
-type Goals = string[];
-type GoalEntry = { goal: string };
-
-const removeGoalRow = (i: number) => {
-  const form = document.getElementById("form-fields");
-  const formRow = document.getElementById(i.toString());
-  if (!!form && !!formRow) form.removeChild(formRow);
-};
-
-const getSeasonGoalsFormValues = (
-  e: React.FormEvent<HTMLFormElement>
-): Goals => {
-  const formData = new FormData(e.currentTarget);
-
-  const formValues = [];
-  for (let [key, value] of formData.entries()) {
-    formValues.push(value);
-  }
-
-  return formValues as Goals;
-};
+type GoalEntry = { id?: string; goal: string };
+type GoalsFormProps = GoalEntry[];
 
 export const SeasonGoalsForm = () => {
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
-  const [rows, setRows] = useState<GoalEntry[]>([{ goal: "" }]);
+  const [goals, setGoals] = useState<GoalEntry[]>([{ goal: "" }]);
 
-  //const { data: initialValues } = useSeasonGoals();
+  //const { data } = useSeasonGoals();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const goals = getSeasonGoalsFormValues(e);
+  const initialValues = [{ goal: "" }]; // data
 
+  const handleGoalValue = (
+    e: ChangeEvent<HTMLInputElement>,
+    rowIndex?: number
+  ) => {
+    if (rowIndex === undefined) return;
+
+    const editedGoal = e.target.value;
+
+    const newGoals = goals.map((goal, i) => {
+      return i === rowIndex ? { id: goal.id, goal: editedGoal } : goal;
+    });
+    setGoals(newGoals);
+  };
+
+  const handleSubmit = () => {
     const { error } = GoalsFromValidation.safeParse(goals);
-
-    console.log("error:", error);
 
     if (!!error)
       return setSubmitError(
@@ -47,10 +39,9 @@ export const SeasonGoalsForm = () => {
     fetch("http://localhost:8081/save-goals", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ goals }),
+      body: JSON.stringify(goals),
       credentials: "include",
     }).then(async (res) => {
-      console.log(res);
       if (res.ok) {
         window.location.reload();
       } else {
@@ -60,22 +51,24 @@ export const SeasonGoalsForm = () => {
     });
   };
 
+  console.log("goals", goals);
+
   return (
-    <form
-      className="flex flex-col gap-6"
-      autoComplete="off"
-      onSubmit={(e) => handleSubmit(e)}>
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3" id="form-fields">
-        {rows.map(({ goal }, i) => {
+        {goals.map(({ goal }, rowIndex) => {
           return (
-            <div className="flex items-center gap-3" id={i.toString()} key={i}>
+            <div className="flex items-center gap-3" key={rowIndex}>
               <InputField
                 name="goal"
                 type="string"
-                defaultValue={goal}></InputField>
+                defaultValue={goal}
+                rowIndex={rowIndex}
+                handleValue={handleGoalValue}></InputField>
               <button
                 onClick={() => {
-                  removeGoalRow(i);
+                  const newGoals = goals.filter((goal, i) => i !== rowIndex);
+                  setGoals(newGoals);
                 }}>
                 x
               </button>
@@ -84,10 +77,10 @@ export const SeasonGoalsForm = () => {
         })}
       </div>
 
-      <button type="button" onClick={() => setRows([...rows, { goal: "" }])}>
+      <button type="button" onClick={() => setGoals([...goals, { goal: "" }])}>
         Add goal
       </button>
-      <SubmitButton label="Save" intent="save" />
-    </form>
+      <SubmitButton label="Save" intent="save" onClick={handleSubmit} />
+    </div>
   );
 };

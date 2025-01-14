@@ -7,6 +7,7 @@ export const InputField = ({
   name,
   type,
   defaultValue,
+  rowIndex,
   min,
   required = false,
   placeholder,
@@ -16,10 +17,14 @@ export const InputField = ({
   name: string;
   label?: string;
   defaultValue?: string;
+  rowIndex?: number;
   min?: number;
   required?: boolean;
   placeholder?: string;
-  handleValue?: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleValue?: (
+    e: ChangeEvent<HTMLInputElement>,
+    edited: number | undefined
+  ) => void;
 }) => {
   return (
     <div className="w-[100%]">
@@ -32,7 +37,7 @@ export const InputField = ({
         min={min}
         placeholder={placeholder}
         required={required}
-        onChange={(e) => handleValue && handleValue(e)}></input>
+        onChange={(e) => handleValue && handleValue(e, rowIndex)}></input>
     </div>
   );
 };

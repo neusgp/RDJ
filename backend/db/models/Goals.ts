@@ -11,15 +11,20 @@ export const GoalValidation = z.object({
   userId: z.string(),
 });
 
+const GoalEntryValidation = z.object({
+  id: z.string().optional(),
+  goal: z.string(),
+});
+
 export type GoalProps = z.infer<typeof GoalValidation> & { id?: Id };
+
+export type GoalEntry = z.infer<typeof GoalEntryValidation>;
 
 interface GoalInstance extends Model<GoalProps>, GoalProps {}
 
 export type PublicGoal = Pick<GoalInstance, "goal"> & { id: Id };
 
 export type UserGoals = PublicGoal[];
-
-export type Goal = string;
 
 export const Goals = sequelize.define<GoalInstance>("goal", {
   goal: { type: STRING },
