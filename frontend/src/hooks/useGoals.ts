@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { GoalsProps } from "../@types";
+import { GoalsFormProps } from "../components/forms/SeasonGoalsForm";
 
-export const useProfile = () => {
-  const [data, setData] = useState<GoalsProps>();
+//this is no longer a generic function, it initializes the form values. so it shoudl be renamed.
+export const useGoals = ({
+  setInitialValues,
+}: {
+  setInitialValues: (data: GoalsFormProps | undefined) => void;
+}) => {
   const [loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
@@ -13,11 +18,11 @@ export const useProfile = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
+        setInitialValues(data);
         setLoading(false);
       })
       .catch();
   }, []);
 
-  return { loading, data };
+  return { loading };
 };

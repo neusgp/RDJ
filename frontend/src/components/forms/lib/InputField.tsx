@@ -33,6 +33,7 @@ export const InputField = ({
         className="w-[100%] border p-1"
         type={type}
         name={name}
+        autoComplete="off"
         defaultValue={defaultValue}
         min={min}
         placeholder={placeholder}

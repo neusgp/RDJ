@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ProfileFormValidation } from "../validation";
+import { ProfileFormValidation, GoalsFromValidation } from "../validation";
 
 //profile
 type ProfileProps = z.infer<typeof ProfileFormValidation>;

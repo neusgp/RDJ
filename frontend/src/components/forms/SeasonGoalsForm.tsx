@@ -1,18 +1,30 @@
 import React, { ChangeEvent, useState } from "react";
 import { InputField, SubmitButton } from "./lib";
 import { GoalsFromValidation } from "../../validation";
+import { useGoals } from "../../hooks";
 
-type GoalEntry = { id?: string; goal: string };
-type GoalsFormProps = GoalEntry[];
+type GoalEntry = { id: string | number; goal: string };
+export type GoalsFormProps = GoalEntry[];
+const PROVISIONAL = "provisional";
+
+export const getProvisionalId = () => {
+  const number1 = Math.random();
+  const number2 = Math.random();
+  return `${PROVISIONAL}-${number1}${number2}`;
+};
 
 export const SeasonGoalsForm = () => {
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
-  const [goals, setGoals] = useState<GoalEntry[]>([{ goal: "" }]);
+  const [goals, setGoals] = useState<GoalsFormProps>([]);
 
-  //const { data } = useSeasonGoals();
+  const setInitialValues = (data: GoalsFormProps | undefined) => {
+    return data
+      ? setGoals(data)
+      : setGoals([{ id: getProvisionalId(), goal: "" }]);
+  };
 
-  const initialValues = [{ goal: "" }]; // data
+  const { loading } = useGoals({ setInitialValues });
 
   const handleGoalValue = (
     e: ChangeEvent<HTMLInputElement>,
@@ -22,14 +34,22 @@ export const SeasonGoalsForm = () => {
 
     const editedGoal = e.target.value;
 
-    const newGoals = goals.map((goal, i) => {
+    const newGoals = goals?.map((goal, i) => {
       return i === rowIndex ? { id: goal.id, goal: editedGoal } : goal;
     });
     setGoals(newGoals);
   };
 
+  const handleDelete = (rowIndex: number) => {
+    const newGoals = goals.filter((goal, i) => i !== rowIndex);
+    setGoals(newGoals); // Update the state
+  };
+
   const handleSubmit = () => {
-    const { error } = GoalsFromValidation.safeParse(goals);
+    const goalsToSubmit = goals.map(({ id, goal }) => {
+      return id.toString().startsWith(PROVISIONAL) ? { goal } : { id, goal };
+    });
+    const { error } = GoalsFromValidation.safeParse(goalsToSubmit);
 
     if (!!error)
       return setSubmitError(
@@ -39,7 +59,7 @@ export const SeasonGoalsForm = () => {
     fetch("http://localhost:8081/save-goals", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify(goals),
+      body: JSON.stringify(goalsToSubmit),
       credentials: "include",
     }).then(async (res) => {
       if (res.ok) {
@@ -51,33 +71,29 @@ export const SeasonGoalsForm = () => {
     });
   };
 
-  console.log("goals", goals);
-
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3" id="form-fields">
-        {goals.map(({ goal }, rowIndex) => {
+        {goals.map(({ id, goal }, rowIndex) => {
           return (
-            <div className="flex items-center gap-3" key={rowIndex}>
+            <div className="flex items-center gap-3" key={id}>
               <InputField
                 name="goal"
                 type="string"
                 defaultValue={goal}
                 rowIndex={rowIndex}
                 handleValue={handleGoalValue}></InputField>
-              <button
-                onClick={() => {
-                  const newGoals = goals.filter((goal, i) => i !== rowIndex);
-                  setGoals(newGoals);
-                }}>
-                x
-              </button>
+              <button onClick={() => handleDelete(rowIndex)}>x</button>
             </div>
           );
         })}
       </div>
 
-      <button type="button" onClick={() => setGoals([...goals, { goal: "" }])}>
+      <button
+        type="button"
+        onClick={() =>
+          setGoals([...goals, { id: getProvisionalId(), goal: "" }])
+        }>
         Add goal
       </button>
       <SubmitButton label="Save" intent="save" onClick={handleSubmit} />

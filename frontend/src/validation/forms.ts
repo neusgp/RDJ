@@ -15,7 +15,7 @@ export const ProfileFormValidation = z.object({
 });
 
 export const GoalEntryValidation = z.object({
-  id: z.string().optional(),
+  id: z.number().optional(),
   goal: z.string(),
 });
 
