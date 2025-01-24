@@ -1,22 +1,9 @@
 import React, { useState } from "react";
-import { InputField, SubmitButton, ValidationHint } from "./lib";
+import { getFormValues, InputField, SubmitButton, ValidationHint } from "./lib";
 import { z } from "zod";
 import { RegisterFormValidation } from "../../validation";
 
-//extract funtion
-export type RegisterFormProps = z.infer<typeof RegisterFormValidation>;
-
-const getRegisterFormValues = (
-  e: React.FormEvent<HTMLFormElement>
-): RegisterFormProps => {
-  const formData = new FormData(e.currentTarget);
-
-  let formValues = {};
-  for (let [key, value] of formData.entries()) {
-    formValues = { ...formValues, [key]: value };
-  }
-  return formValues as RegisterFormProps;
-};
+type RegisterFormProps = z.infer<typeof RegisterFormValidation>;
 
 export const RegisterForm = ({
   setIsRegister,
@@ -28,7 +15,9 @@ export const RegisterForm = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { email, password } = getRegisterFormValues(e);
+
+    const { email, password } = getFormValues<RegisterFormProps>(e);
+
     const { error } = RegisterFormValidation.safeParse({ email, password });
     if (!!error)
       //fix this code!

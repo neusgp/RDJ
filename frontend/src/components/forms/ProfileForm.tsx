@@ -1,21 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
-import { InputField, SubmitButton } from "./lib";
+import { getFormValues, InputField, SubmitButton } from "./lib";
 import { ProfileFormValidation } from "../../validation";
 import { useProfile } from "../../hooks";
 import { ProfileProps } from "../../@types";
+import { z } from "zod";
 
-//todo: this should be reused
-const getProfileFormValues = (
-  e: React.FormEvent<HTMLFormElement>
-): ProfileProps => {
-  const formData = new FormData(e.currentTarget);
-
-  let formValues = {};
-  for (let [key, value] of formData.entries()) {
-    formValues = { ...formValues, [key]: value };
-  }
-  return formValues;
-};
+type RegisterFormProps = z.infer<typeof ProfileFormValidation>;
 
 export const ProfileForm = () => {
   //todo: add regex validation and set submit errors
@@ -25,7 +15,8 @@ export const ProfileForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, derbyName, number, league } = getProfileFormValues(e);
+    const { name, derbyName, number, league } =
+      getFormValues<RegisterFormProps>(e);
 
     const { error } = ProfileFormValidation.safeParse({
       name,

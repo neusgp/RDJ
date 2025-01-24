@@ -1,23 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
-import { InputField, SubmitButton, ValidationHint } from "./lib";
+import { getFormValues, InputField, SubmitButton, ValidationHint } from "./lib";
 import { NavLink } from "react-router-dom";
 import { login } from "../../api";
 import { RegisterFormValidation } from "../../validation";
 import { z } from "zod";
 
-type LoginProps = z.infer<typeof RegisterFormValidation>;
-
-const getLoginFormValues = (
-  e: React.FormEvent<HTMLFormElement>
-): LoginProps => {
-  const formData = new FormData(e.currentTarget);
-
-  let formValues = {};
-  for (let [key, value] of formData.entries()) {
-    formValues = { ...formValues, [key]: value };
-  }
-  return formValues as LoginProps;
-};
+export type LoginProps = z.infer<typeof RegisterFormValidation>;
 
 export const LoginForm = ({
   setIsRegister,
@@ -31,7 +19,7 @@ export const LoginForm = ({
     e.preventDefault();
     setSuccess(false);
 
-    const { email, password } = getLoginFormValues(e);
+    const { email, password } = getFormValues<LoginProps>(e);
 
     const { success, error } = await login({ email, password });
 

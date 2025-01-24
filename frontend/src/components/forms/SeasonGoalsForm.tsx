@@ -46,11 +46,15 @@ export const SeasonGoalsForm = () => {
   };
 
   const handleSubmit = () => {
-    const goalsToSubmit = goals.map(({ id, goal }) => {
-      return id.toString().startsWith(PROVISIONAL) ? { goal } : { id, goal };
-    });
-    const { error } = GoalsFromValidation.safeParse(goalsToSubmit);
+    const goalsToSubmit = goals
+      .map(({ id, goal }) => {
+        if (!goal) return;
+        return id.toString().startsWith(PROVISIONAL) ? { goal } : { id, goal };
+      })
+      .filter((g) => !!g);
 
+    const { error } = GoalsFromValidation.safeParse(goalsToSubmit);
+    console.log(error);
     if (!!error)
       return setSubmitError(
         "Some information's format is not valid. Try again."
@@ -70,6 +74,8 @@ export const SeasonGoalsForm = () => {
       }
     });
   };
+
+  debugger;
 
   return (
     <div className="flex flex-col gap-6">
