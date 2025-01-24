@@ -4,13 +4,13 @@ import { DataTypes, Model } from "sequelize";
 
 // to-do: separate validations and types in different files
 
-const { STRING, INTEGER } = DataTypes;
+const { STRING } = DataTypes;
 
-//todo: add regex validation!!!!
+//todo: add regex validation!
 export const ProfileValidation = z.object({
   name: z.string().optional(),
   derbyName: z.string().optional(),
-  number: z.string().optional(), //:S number = string?
+  number: z.string().optional(), //number = string? :S
   league: z.string().optional(),
   userId: z.string(),
 });
@@ -21,7 +21,6 @@ export type ProfileProps = z.infer<typeof ProfileValidation> & {
 
 interface ProfileInstance extends Model<ProfileProps>, ProfileProps {}
 
-//just for security, I might need the id to check if it's an edit or a create.
 export type PublicProfile = Pick<
   ProfileInstance,
   "name" | "derbyName" | "number" | "league" | "userId"
