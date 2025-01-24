@@ -4,7 +4,7 @@ export const saveGoal = async ({
   goal,
   id,
   userId,
-}: GoalProps): Promise<void> => {
+}: GoalProps): Promise<void | number | [affectedCount: number]> => {
   GoalValidation.parse({
     goal,
     userId,
@@ -13,7 +13,6 @@ export const saveGoal = async ({
 
   if (!id) {
     await Goals.create({ goal, userId });
-    return;
   } else {
     const existentGoal = await Goals.findOne({
       where: { id: id, userId: userId },

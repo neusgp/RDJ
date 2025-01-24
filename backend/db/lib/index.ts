@@ -5,3 +5,4 @@ export * from "./getProfile";
 export * from "./saveProfile";
 export * from "./getGoal";
 export * from "./saveGoal";
+export * from "./cleanGoalRecords";

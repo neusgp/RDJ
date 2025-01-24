@@ -13,6 +13,7 @@ import {
   getGoals,
   saveGoal,
   GoalEntry,
+  cleanGoalRecords,
 } from "./db";
 import { authorise } from "./lib";
 import { getUserId } from "./helpers";
@@ -131,10 +132,11 @@ app.post("/save-profile", async (req, res) => {
 });
 
 app.post("/save-goals", async (req, res) => {
-  console.log(req.body);
-  const goals = req.body;
-  console.log("goals in the server", goals);
+  const goals: GoalEntry[] = req.body;
+
   try {
+    await cleanGoalRecords({ goals, userId: getUserId(req) });
+
     goals.forEach(async (goal: GoalEntry) => {
       await saveGoal({ userId: getUserId(req), ...goal });
     });
