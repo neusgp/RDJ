@@ -1,22 +1,18 @@
-import { AuthorisationResult } from "./types";
-
-//this needs to be refactored. It's not necessary to have both success and error.
-export const authorise = async (): Promise<AuthorisationResult> => {
-  let success;
-  let error;
-
+export const authorise = async <
+  AuthorisationResult
+>(): Promise<AuthorisationResult> => {
+  let result = {};
   await fetch("http://localhost:8081/authorise", {
     method: "GET",
     headers: { "Content-type": "application/json" },
     credentials: "include",
   }).then(async (res) => {
     if (res.ok) {
-      success = true;
+      result = { success: true };
     } else {
-      const { error: authorisationError } = await res.json();
-      error = authorisationError;
+      const { error } = await res.json();
+      result = { error };
     }
   });
-
-  return { success, error };
+  return result as AuthorisationResult;
 };

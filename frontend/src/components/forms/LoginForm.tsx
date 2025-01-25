@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { login } from "../../api";
 import { RegisterFormValidation } from "../../validation";
 import { z } from "zod";
+import { isError, isSuccess } from "../../@types";
 
 export type LoginProps = z.infer<typeof RegisterFormValidation>;
 
@@ -21,15 +22,14 @@ export const LoginForm = ({
 
     const { email, password } = getFormValues<LoginProps>(e);
 
-    const { success, error } = await login({ email, password });
+    const result = await login({ email, password });
 
-    if (!!success) {
-      setSuccess(success);
-      //todo: this is going to be a separate function
+    if (isSuccess(result)) {
+      setSuccess(result.success);
       setTimeout(() => {
         window.location.href = "http://localhost:3000/dashboard";
       }, 1500);
-    } else if (!!error) setSubmitError(error);
+    } else if (isError(result)) setSubmitError(result.error);
   };
 
   return (

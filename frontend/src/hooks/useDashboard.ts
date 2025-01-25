@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { DashboardProps } from "../@types";
+import { AuthorisationResult, DashboardProps, isError } from "../@types";
 import { authorise } from "../api";
 
 export const useDashboard = () => {
@@ -9,9 +9,10 @@ export const useDashboard = () => {
   useEffect(() => {
     //the question remains: should the redirect be done in the server? Or should the server be user as an API layer only?
     //if I do this separately, there will be 2 api requests
-    authorise()
-      .then(({ success }) => {
-        if (!success) return (window.location.href = "http://localhost:3000/"); //out -> this will be the /login
+    authorise<AuthorisationResult>()
+      .then((result) => {
+        if (isError(result))
+          return (window.location.href = "http://localhost:3000/"); //out -> this will be the /login
       })
       .catch();
 

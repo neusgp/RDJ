@@ -1,8 +1,7 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { getFormValues, InputField, SubmitButton } from "./lib";
 import { ProfileFormValidation } from "../../validation";
 import { useProfile } from "../../hooks";
-import { ProfileProps } from "../../@types";
 import { z } from "zod";
 
 type RegisterFormProps = z.infer<typeof ProfileFormValidation>;
@@ -15,6 +14,7 @@ export const ProfileForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const { name, derbyName, number, league } =
       getFormValues<RegisterFormProps>(e);
 
