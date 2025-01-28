@@ -1,6 +1,7 @@
-export type AuthorisationResult = { success: true } | { error: string };
-export type AuthenticationResult = AuthorisationResult;
+type Success = { success: true };
+type Error = { error: string };
 
-//type guards
-export const isSuccess = (result: AuthenticationResult) => "success" in result;
-export const isError = (result: AuthenticationResult) => "error" in result;
+//type checks
+export const isSuccess = (result: Success | Error): boolean =>
+  "success" in result;
+export const isError = (result: Success | Error): boolean => "error" in result;

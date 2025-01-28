@@ -1,5 +1,7 @@
-import { AuthenticationResult, AuthorisationResult, isError } from "../@types";
+import { Success, Error } from "../@types";
 import { authorise } from "./authorise";
+
+let loginResult: Success | Error;
 
 export const login = async ({
   email,
@@ -7,7 +9,7 @@ export const login = async ({
 }: {
   email: string;
   password: string;
-}): Promise<AuthenticationResult> => {
+}): Promise<Success | Error> => {
   await fetch("http://localhost:8081/login", {
     method: "POST",
     headers: { "Content-type": "application/json" },
@@ -15,16 +17,11 @@ export const login = async ({
     credentials: "include",
   }).then(async (res) => {
     if (res.ok) {
-      const result = await authorise<AuthorisationResult>();
-
-      if (isError(result)) return { error: result.error };
-
-      return { success: result.success };
+      loginResult = await authorise();
     } else {
       const { error } = await res.json();
-      return { error };
+      loginResult = { error };
     }
   });
-
-  return { error: "Unknown error" };
+  return loginResult;
 };

@@ -1,2 +1,2 @@
-export * from "./dashboard";
-export * from "./authentication";
+export * from "./dashboard.d";
+export * from "./authentication.d";

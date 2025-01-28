@@ -1,17 +1,18 @@
-export const authorise = async <
-  AuthorisationResult
->(): Promise<AuthorisationResult> => {
+import { Success, Error } from "../@types";
+let authoriseResult: Success | Error;
+
+export const authorise = async (): Promise<Success | Error> => {
   await fetch("http://localhost:8081/authorise", {
     method: "GET",
     headers: { "Content-type": "application/json" },
     credentials: "include",
   }).then(async (res) => {
     if (res.ok) {
-      return { success: true };
+      authoriseResult = { success: true };
     } else {
       const { error } = await res.json();
-      return { error };
+      authoriseResult = { error };
     }
   });
-  return { error: "Unknown error" } as AuthorisationResult;
+  return authoriseResult;
 };
