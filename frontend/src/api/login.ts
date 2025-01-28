@@ -1,4 +1,4 @@
-import { AuthenticationResult, AuthorisationResult } from "../@types";
+import { AuthenticationResult, AuthorisationResult, isError } from "../@types";
 import { authorise } from "./authorise";
 
 export const login = async ({
@@ -17,7 +17,7 @@ export const login = async ({
     if (res.ok) {
       const result = await authorise<AuthorisationResult>();
 
-      if ("error" in result) return { error: result.error };
+      if (isError(result)) return { error: result.error };
 
       return { success: result.success };
     } else {
