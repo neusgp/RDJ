@@ -86,7 +86,8 @@ export const SeasonGoalsForm = () => {
                 type="string"
                 defaultValue={goal}
                 rowIndex={rowIndex}
-                handleValue={handleGoalValue}></InputField>
+                handleValue={handleGoalValue}
+              />
               <button onClick={() => handleDelete(rowIndex)}>x</button>
             </div>
           );

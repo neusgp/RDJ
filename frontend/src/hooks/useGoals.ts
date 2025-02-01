@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { GoalsProps } from "../@types";
 import { GoalsFormProps } from "../components/forms/SeasonGoalsForm";
 
 //this is no longer a generic function, it initializes the form values. so it shoudl be renamed.
