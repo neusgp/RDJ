@@ -1,7 +1,11 @@
 import React from "react";
 import { GoalsProps } from "../../@types";
 
-export const SeasonGoals = ({ goals }: { goals: GoalsProps | undefined }) => {
+export const SeasonGoalsCard = ({
+  goals,
+}: {
+  goals: GoalsProps | undefined;
+}) => {
   const userGoals = goals && goals[0];
 
   return (

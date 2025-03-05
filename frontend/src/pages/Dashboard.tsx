@@ -4,7 +4,7 @@ import {
   CreateMenu,
   LogOut,
   ProfileDetails,
-  SeasonGoals,
+  SeasonGoalsCard,
 } from "../components";
 import { useDashboard } from "../hooks";
 
@@ -13,8 +13,6 @@ export const Dashboard = () => {
 
   const { profile, goals } = data || {};
   const { derbyName } = profile || {};
-
-  console.log(data);
 
   return (
     <div className="h-screen p-6">
@@ -33,7 +31,7 @@ export const Dashboard = () => {
               <CreateMenu />
             </div>
           </div>
-          <SeasonGoals goals={goals} />
+          <SeasonGoalsCard goals={goals} />
           <div className="space-y-2">
             <Card />
             <Card />
