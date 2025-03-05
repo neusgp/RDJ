@@ -8,6 +8,16 @@ import {
 } from "../components";
 import { useDashboard } from "../hooks";
 
+const Settings = () => {
+  return (
+    <div className="flex gap-10">
+      <LogOut />
+      <ProfileDetails />
+      <CreateMenu />
+    </div>
+  );
+};
+
 export const Dashboard = () => {
   const { data, loading } = useDashboard();
 
@@ -25,18 +35,12 @@ export const Dashboard = () => {
               Welcome
               {derbyName ? ` back, ${derbyName}!` : "!"}
             </p>
-            <div className="flex gap-10">
-              <LogOut />
-              <ProfileDetails />
-              <CreateMenu />
-            </div>
+            <Settings />
           </div>
           <SeasonGoalsCard goals={goals} />
-          <div className="space-y-2">
-            <Card />
-            <Card />
-            <Card />
-          </div>
+          <Card />
+          <Card />
+          <Card />
         </>
       )}
     </div>
