@@ -43,7 +43,7 @@ export const LoginForm = ({
           onSubmit={(e) => handleSubmit(e)}
           className="flex flex-col justify-center gap-6">
           <p className="text-lg font-bold">Log in</p>
-          <div className="space-y-2">
+          <div className="space-y-4">
             <InputField label="Email" type="string" name="email" required />
             <InputField
               label="Password"
@@ -53,7 +53,7 @@ export const LoginForm = ({
             />
           </div>
           <ValidationHint hint={submitError} />
-          <SubmitButton label="Log in" intent="save" />
+          <SubmitButton label="Log in" intent="primary" />
           <div className="flex flex-col text-center gap-2">
             <NavLink
               to="/recovery"

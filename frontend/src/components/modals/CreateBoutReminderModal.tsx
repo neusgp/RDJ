@@ -2,15 +2,12 @@ import React from "react";
 import { Modal } from "./lib";
 
 export const CreateBoutReminderModal = ({
-  handleIsOpen,
+  onClose,
 }: {
-  handleIsOpen: () => void;
+  onClose: () => void;
 }) => {
   return (
-    <Modal
-      modalTitle="Create Bout Reminder"
-      isClose
-      handleIsOpen={handleIsOpen}>
+    <Modal modalTitle="Create Bout Reminder" onClose={onClose}>
       <form>Hello!</form>
     </Modal>
   );

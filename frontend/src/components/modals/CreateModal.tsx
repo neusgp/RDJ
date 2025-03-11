@@ -5,23 +5,23 @@ import { CreateSeasonGoalModal } from "./CreateSeasonGoalModal";
 
 export const CreateModal = ({
   createType,
-  handleIsOpen,
+  handleModalClose,
 }: {
   createType: CreateType;
-  handleIsOpen: () => void;
+  handleModalClose: () => void;
 }) => {
   return (
     <>
       {createType ? (
         <>
           {createType === CreateTypes.note && (
-            <CreateBoutReminderModal handleIsOpen={handleIsOpen} />
+            <CreateBoutReminderModal onClose={handleModalClose} />
           )}
           {createType === CreateTypes.bout && (
-            <CreateBoutReminderModal handleIsOpen={handleIsOpen} />
+            <CreateBoutReminderModal onClose={handleModalClose} />
           )}
           {createType === CreateTypes.goal && (
-            <CreateSeasonGoalModal handleIsOpen={handleIsOpen} />
+            <CreateSeasonGoalModal onClose={handleModalClose} />
           )}
         </>
       ) : (

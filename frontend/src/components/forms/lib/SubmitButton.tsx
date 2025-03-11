@@ -1,6 +1,6 @@
 import React from "react";
 
-type ButtonColor = "submit" | "cancel" | "save";
+type ButtonIntent = "primary" | "secondary" | "delete";
 
 export const SubmitButton = ({
   label,
@@ -9,26 +9,26 @@ export const SubmitButton = ({
   onClick,
 }: {
   label: string;
-  intent: ButtonColor;
+  intent: ButtonIntent;
   isDisabled?: boolean;
   onClick?: () => void;
 }) => {
-  const getButtonColor = (intent: ButtonColor): string => {
+  const getButtonStyle = (intent: ButtonIntent): string => {
     switch (intent) {
-      case "save":
-        return "bg-blue-300 text-blue-800";
-      case "cancel":
-        return "bg-red-300 text-red-800";
-      case "submit":
-        return "bg-green-300 text-green-800";
+      case "secondary":
+        return "bg-cyan-400";
+      case "delete":
+        return "bg-red-500";
+      case "primary":
+        return "bg-purple-500";
     }
   };
 
   return (
     <button
-      className={`${getButtonColor(
+      className={`${getButtonStyle(
         intent
-      )} py-2 px-4 self-center rounded text-sm`}
+      )} py-3 px-8 self-center rounded-[100px] font-semibold  text-white `}
       type="submit"
       disabled={isDisabled}
       onClick={() => onClick && onClick()}>

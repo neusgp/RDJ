@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import { CreateMenuOptions } from "./CreateMenuOptions";
 import { CreateModal } from "../modals";
 import { CreateType } from "./lib";
+import { ActionButton } from "../buttons";
 
 export const CreateMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [createType, setCreateType] = useState<CreateType | undefined>();
 
-  const handleIsOpen = () => {
+  const handleActionButtonClick = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleModalClose = () => {
     setCreateType(undefined);
   };
 
@@ -18,13 +23,17 @@ export const CreateMenu = () => {
   return (
     <>
       <div className="space-y-4">
-        <p className="w-4 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? "-" : "+"}
-        </p>
+        <ActionButton
+          handleOnClick={handleActionButtonClick}
+          intent={isOpen ? "close" : "create"}
+        />
         {isOpen && <CreateMenuOptions handleCreate={handleCreate} />}
       </div>
       {!!createType && (
-        <CreateModal createType={createType} handleIsOpen={handleIsOpen} />
+        <CreateModal
+          createType={createType}
+          handleModalClose={handleModalClose}
+        />
       )}
     </>
   );

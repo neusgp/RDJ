@@ -71,7 +71,7 @@ export const RegisterForm = ({
               />
             </div>
             <ValidationHint hint={submitError} />
-            <SubmitButton label="Register" intent="save" />
+            <SubmitButton label="Register" intent="primary" />
             <div className="text-center">
               Or, if you already have and account, <br />
               <a

@@ -7,7 +7,7 @@ import { z } from "zod";
 type RegisterFormProps = z.infer<typeof ProfileFormValidation>;
 
 const MemoSubmitButton = React.memo(() => (
-  <SubmitButton label="Save" intent="save" />
+  <SubmitButton label="Save" intent="primary" />
 ));
 
 export const ProfileForm = () => {
