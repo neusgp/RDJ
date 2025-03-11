@@ -8,7 +8,7 @@ export const ProfileDetailsModal = ({
   handleIsOpen: () => void;
 }) => {
   return (
-    <Modal modalTitle="Profile Details" isClose handleIsOpen={handleIsOpen}>
+    <Modal modalTitle="Profile Details" onClose={handleIsOpen}>
       <ProfileForm />
     </Modal>
   );

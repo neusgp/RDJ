@@ -1,5 +1,4 @@
 import React from "react";
-import { InputField, SubmitButton } from "../forms";
 import { ConfirmModal } from "./lib";
 import { logout } from "../../api";
 
