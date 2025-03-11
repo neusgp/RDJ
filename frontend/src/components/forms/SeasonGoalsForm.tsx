@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
-import { InputField, SubmitButton } from "./lib";
+import { InputField } from "./lib";
 import { GoalsFromValidation } from "../../validation";
 import { useGoals } from "../../hooks";
-import { DeleteButton } from "../buttons";
+import { DeleteButton, SubmitButton } from "../buttons";
 
 type GoalEntry = { id: string | number; goal: string };
 export type GoalsFormProps = GoalEntry[];

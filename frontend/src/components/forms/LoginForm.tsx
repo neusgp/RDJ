@@ -1,10 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
-import { getFormValues, InputField, SubmitButton, ValidationHint } from "./lib";
+import { getFormValues, InputField, ValidationHint } from "./lib";
 import { NavLink } from "react-router-dom";
 import { login } from "../../api";
 import { RegisterFormValidation } from "../../validation";
 import { z } from "zod";
 import { isError, isSuccess, Error } from "../../@types";
+import { SubmitButton } from "../buttons";
 
 export type LoginProps = z.infer<typeof RegisterFormValidation>;
 

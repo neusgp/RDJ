@@ -1,4 +1,4 @@
 export * from "./InputField";
-export * from "./SubmitButton";
+export * from "../../buttons/SubmitButton";
 export * from "./ValidationHint";
 export * from "./getFormValues";

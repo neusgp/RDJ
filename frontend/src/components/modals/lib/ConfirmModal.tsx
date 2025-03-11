@@ -1,5 +1,5 @@
 import React, { JSX } from "react";
-import { SubmitButton } from "../../forms";
+import { SubmitButton } from "../../buttons";
 
 export const ConfirmModal = ({
   children,

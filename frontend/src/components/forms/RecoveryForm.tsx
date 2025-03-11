@@ -1,5 +1,5 @@
 import React from "react";
-import { InputField, SubmitButton } from "./lib";
+
 import { NavLink } from "react-router-dom";
 
 //todo: contact us functionality

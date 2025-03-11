@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { getFormValues, InputField, SubmitButton } from "./lib";
+import { getFormValues, InputField } from "./lib";
 import { ProfileFormValidation } from "../../validation";
 import { useProfile } from "../../hooks";
 import { z } from "zod";
+import { SubmitButton } from "../buttons";
 
 type RegisterFormProps = z.infer<typeof ProfileFormValidation>;
 
