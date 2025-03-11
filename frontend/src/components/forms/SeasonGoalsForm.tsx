@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { InputField, SubmitButton } from "./lib";
 import { GoalsFromValidation } from "../../validation";
 import { useGoals } from "../../hooks";
+import { DeleteButton } from "../buttons";
 
 type GoalEntry = { id: string | number; goal: string };
 export type GoalsFormProps = GoalEntry[];
@@ -88,7 +89,7 @@ export const SeasonGoalsForm = () => {
                 rowIndex={rowIndex}
                 handleValue={handleGoalValue}
               />
-              <button onClick={() => handleDelete(rowIndex)}>x</button>
+              <DeleteButton handleDelete={handleDelete} rowIndex={rowIndex} />
             </div>
           );
         })}
@@ -101,7 +102,7 @@ export const SeasonGoalsForm = () => {
         }>
         Add goal
       </button>
-      <SubmitButton label="Save" intent="save" onClick={handleSubmit} />
+      <SubmitButton label="Save" intent="primary" onClick={handleSubmit} />
     </div>
   );
 };
