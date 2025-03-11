@@ -27,10 +27,10 @@ export const InputField = ({
   ) => void;
 }) => {
   return (
-    <div className="w-[100%]">
-      {label && <p>{label}</p>}
+    <div className="w-[100%] flex flex-col gap-2">
+      {label && <p className="text-sm font-semibold text-slate-500">{label}</p>}
       <input
-        className="w-[100%] border p-1"
+        className="w-[100%] border border-[#B8B6D5] py-2 px-3 rounded-lg"
         type={type}
         name={name}
         autoComplete="off"
