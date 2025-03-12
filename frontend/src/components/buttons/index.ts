@@ -3,3 +3,4 @@ export * from "./ActionButton";
 export * from "./QuickCreateButton";
 export * from "./SubmitButton";
 export * from "./CloseButton";
+export * from "./AddGoalButton";

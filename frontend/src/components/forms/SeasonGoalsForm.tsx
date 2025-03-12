@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { InputField } from "./lib";
 import { GoalsFromValidation } from "../../validation";
 import { useGoals } from "../../hooks";
-import { DeleteButton, SubmitButton } from "../buttons";
+import { AddGoalsButton, DeleteButton, SubmitButton } from "../buttons";
 
 type GoalEntry = { id: string | number; goal: string };
 export type GoalsFormProps = GoalEntry[];
@@ -44,6 +44,10 @@ export const SeasonGoalsForm = () => {
   const handleDelete = (rowIndex: number) => {
     const newGoals = goals.filter((goal, i) => i !== rowIndex);
     setGoals(newGoals); // Update the state
+  };
+
+  const handleAddGoal = () => {
+    setGoals([...goals, { id: getProvisionalId(), goal: "" }]);
   };
 
   const handleSubmit = () => {
@@ -94,14 +98,7 @@ export const SeasonGoalsForm = () => {
           );
         })}
       </div>
-
-      <button
-        type="button"
-        onClick={() =>
-          setGoals([...goals, { id: getProvisionalId(), goal: "" }])
-        }>
-        Add goal
-      </button>
+      <AddGoalsButton handleAddGoal={handleAddGoal} />
       <SubmitButton label="Save" intent="primary" onClick={handleSubmit} />
     </div>
   );
