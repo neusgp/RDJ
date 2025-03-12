@@ -21,3 +21,9 @@ body {
 button {
     font-family: 'Fira Code', sans-serif;
 }
+
+.modal-title {
+    font-size: 24px;
+    font-family: 'Fira Code', sans-serif;
+    color: #A855F7
+}
