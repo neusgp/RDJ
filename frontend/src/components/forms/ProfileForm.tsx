@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 import { getFormValues, InputField } from "./lib";
 import { ProfileFormValidation } from "../../validation";
 import { useProfile } from "../../hooks";
@@ -7,15 +7,9 @@ import { SubmitButton } from "../buttons";
 
 type RegisterFormProps = z.infer<typeof ProfileFormValidation>;
 
-const MemoSubmitButton = React.memo(() => (
-  <SubmitButton label="Save" intent="primary" />
-));
-
-export const ProfileForm = () => {
+export const ProfileForm = ({ children }: { children: JSX.Element }) => {
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
-
-  const { data: initialValues } = useProfile();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,36 +46,8 @@ export const ProfileForm = () => {
   };
 
   return (
-    <form
-      className="flex flex-col justify-center gap-6"
-      onSubmit={(e) => handleSubmit(e)}>
-      <InputField
-        label="Real name"
-        name="name"
-        type="string"
-        defaultValue={initialValues?.name}
-      />
-      <InputField
-        label="Derby name"
-        name="derbyName"
-        type="string"
-        defaultValue={initialValues?.derbyName}
-      />
-      <InputField
-        label="Number"
-        name="number"
-        type="number"
-        defaultValue={initialValues?.number}
-        min={0}
-      />
-      <InputField
-        label="League"
-        name="league"
-        type="string"
-        defaultValue={initialValues?.league}
-        placeholder="Enter city or team"
-      />
-      <MemoSubmitButton />
+    <form className="flex flex-col gap-10" onSubmit={(e) => handleSubmit(e)}>
+      <div className="flex flex-col justify-center gap-4">{children}</div>
     </form>
   );
 };
