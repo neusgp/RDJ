@@ -18,12 +18,13 @@ body {
     line-height: 1;
 }
 
-button {
+button,
+.goals-card,
+.modal-title {
     font-family: 'Fira Code', sans-serif;
 }
 
 .modal-title {
     font-size: 24px;
-    font-family: 'Fira Code', sans-serif;
     color: #A855F7;
 }

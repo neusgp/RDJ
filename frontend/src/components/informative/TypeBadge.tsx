@@ -1,5 +1,6 @@
 import React from "react";
 
+//TODO: import from constants file
 const COLORS = new Map([
   ["training", "bg-orange-500"],
   ["bout", "bg-blue-400"],
@@ -8,6 +9,7 @@ const COLORS = new Map([
   ["rule", "bg-green-600"],
 ]);
 
+//TODO: create constants
 type BadgeType = "training" | "bout" | "bootcamp" | "skill" | "rule";
 
 export const TypeBadge = ({ type }: { type: BadgeType }) => {

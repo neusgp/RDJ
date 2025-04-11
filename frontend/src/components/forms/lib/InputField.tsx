@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 
-type InputType = "string" | "number" | "password";
+type InputType = "string" | "number" | "password" | "select";
 
 export const InputField = ({
   label,
