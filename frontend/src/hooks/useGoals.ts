@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { GoalsFormProps } from "../components/forms/SeasonGoalsForm";
 
 //this is no longer a generic function, it initializes the form values. so it shoudl be renamed.
 export const useGoals = ({
@@ -7,8 +6,6 @@ export const useGoals = ({
 }: {
   setInitialValues: (data: GoalsFormProps | undefined) => void;
 }) => {
-  const [loading, setLoading] = useState<boolean>();
-
   useEffect(() => {
     fetch("http://localhost:8081/get-goals", {
       method: "POST",
@@ -18,10 +15,7 @@ export const useGoals = ({
       .then((res) => res.json())
       .then((data) => {
         setInitialValues(data);
-        setLoading(false);
       })
       .catch();
   }, []);
-
-  return { loading };
 };

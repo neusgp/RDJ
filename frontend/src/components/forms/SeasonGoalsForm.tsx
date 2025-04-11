@@ -3,18 +3,9 @@ import { InputField } from "./lib";
 import { GoalsFromValidation } from "../../validation";
 import { useGoals } from "../../hooks";
 import { AddGoalsButton, DeleteButton, SubmitButton } from "../buttons";
+import { getProvisionalId, PROVISIONAL } from "./lib";
 
-type GoalEntry = { id: string | number; goal: string };
-export type GoalsFormProps = GoalEntry[];
-const PROVISIONAL = "provisional";
-
-export const getProvisionalId = () => {
-  const number1 = Math.random();
-  const number2 = Math.random();
-  return `${PROVISIONAL}-${number1}${number2}`;
-};
-
-export const SeasonGoalsForm = () => {
+export const SeasonGoalsForm = ({ close }: { close: () => void }) => {
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
   const [goals, setGoals] = useState<GoalsFormProps>([]);
@@ -25,7 +16,7 @@ export const SeasonGoalsForm = () => {
       : setGoals([{ id: getProvisionalId(), goal: "" }]);
   };
 
-  const { loading } = useGoals({ setInitialValues });
+  useGoals({ setInitialValues });
 
   const handleGoalValue = (
     e: ChangeEvent<HTMLInputElement>,
@@ -72,7 +63,7 @@ export const SeasonGoalsForm = () => {
       credentials: "include",
     }).then(async (res) => {
       if (res.ok) {
-        window.location.reload();
+        close();
       } else {
         const { error } = await res.json();
         setSubmitError(error);
