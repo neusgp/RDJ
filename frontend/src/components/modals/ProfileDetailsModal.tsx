@@ -3,19 +3,19 @@ import { InputField, ProfileForm } from "../forms";
 import { Modal } from "./lib";
 import { useProfile } from "../../hooks";
 import { SubmitButton } from "../buttons";
-import { SelectField } from "../input/SelectField";
-import { DateField } from "../input";
 
 export const ProfileDetailsModal = ({
   handleIsOpen,
+  showNotification,
 }: {
   handleIsOpen: () => void;
+  showNotification: () => void;
 }) => {
   const { data: initialValues } = useProfile();
 
   return (
     <Modal modalTitle="Profile Details" onClose={handleIsOpen}>
-      <ProfileForm>
+      <ProfileForm close={handleIsOpen} showNotification={showNotification}>
         <>
           <InputField
             label="Real name"

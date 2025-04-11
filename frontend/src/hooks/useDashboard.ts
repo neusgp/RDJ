@@ -27,7 +27,7 @@ export const useDashboard = () => {
         setLoading(false);
       })
       .catch();
-  }, []);
+  }, [data]);
 
   return { loading, data };
 };

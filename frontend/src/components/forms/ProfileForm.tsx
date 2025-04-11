@@ -1,13 +1,20 @@
 import React, { JSX, useState } from "react";
-import { getFormValues, InputField } from "./lib";
+import { getFormValues } from "./lib";
 import { ProfileFormValidation } from "../../validation";
-import { useProfile } from "../../hooks";
 import { z } from "zod";
-import { SubmitButton } from "../buttons";
 
 type RegisterFormProps = z.infer<typeof ProfileFormValidation>;
 
-export const ProfileForm = ({ children }: { children: JSX.Element }) => {
+export const ProfileForm = ({
+  children,
+  close,
+  showNotification,
+}: {
+  children: JSX.Element;
+  close: () => void;
+  showNotification: () => void;
+}) => {
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
 
@@ -37,7 +44,8 @@ export const ProfileForm = ({ children }: { children: JSX.Element }) => {
       credentials: "include",
     }).then(async (res) => {
       if (res.ok) {
-        window.location.reload();
+        close();
+        showNotification();
       } else {
         const { error } = await res.json();
         setSubmitError(error);
