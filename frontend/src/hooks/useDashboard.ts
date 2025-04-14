@@ -4,10 +4,10 @@ import { isEqual } from "lodash";
 
 export const useDashboard = ({
   isDashboardUpdate,
-  stopDashboardRefresh,
+  handleRefreshDashboard,
 }: {
   isDashboardUpdate: boolean;
-  stopDashboardRefresh: () => void;
+  handleRefreshDashboard: () => void;
 }) => {
   const [data, setData] = useState<DashboardProps>({
     profile: { derbyName: "" },
@@ -27,7 +27,7 @@ export const useDashboard = ({
         if (!isEqual(data, newData)) {
           console.log("different data");
           setData(newData);
-          stopDashboardRefresh();
+          handleRefreshDashboard();
         }
       })
       .catch();

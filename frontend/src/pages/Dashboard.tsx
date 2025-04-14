@@ -1,45 +1,24 @@
-import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CreateMenu,
-  LogOut,
-  ProfileDetails,
-  SeasonGoalsCard,
-} from "../components";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Card, SeasonGoalsCard, Settings } from "../components";
 import { useDashboard } from "../hooks";
 import { isError } from "../@types";
 import { authorise } from "../api";
-import { update, updateWith } from "lodash";
 
-const Settings = ({ refreshDashboard }: { refreshDashboard: () => void }) => {
-  return (
-    <div className="flex gap-10">
-      <LogOut />
-      <ProfileDetails refreshDashboard={refreshDashboard} />
-      <CreateMenu />
-    </div>
-  );
-};
+const Welcome = ({ derbyName }: { derbyName?: string }) => (
+  <p className="font-bold text-[38px] text-slate-600">
+    Welcome
+    {derbyName ? ` back, ${derbyName}!` : "!"}
+  </p>
+);
 
 export const Dashboard = () => {
   const [isDashboardUpdate, setIsDashboardUpdate] = useState<boolean>(true);
 
-  const refreshDashboard = () => {
-    console.log("triggered");
-    setIsDashboardUpdate(true);
-  };
+  const refreshDashboard = useCallback(() => setIsDashboardUpdate(true), []);
 
-  const stopDashboardRefresh = () => {
+  const handleRefreshDashboard = () => {
     setIsDashboardUpdate(false);
   };
-
-  const { data, loading } = useDashboard({
-    isDashboardUpdate,
-    stopDashboardRefresh,
-  });
-
-  const { profile } = data || {};
-  const { derbyName } = profile || {};
 
   useEffect(() => {
     authorise()
@@ -50,6 +29,15 @@ export const Dashboard = () => {
       .catch();
   }, []);
 
+  const { data, loading } = useDashboard({
+    isDashboardUpdate,
+    handleRefreshDashboard,
+  });
+
+  const { goals } = data || {};
+  const { profile } = data || {};
+  const { derbyName } = profile || {};
+
   return (
     <div className="h-screen p-6">
       {loading ? (
@@ -57,13 +45,10 @@ export const Dashboard = () => {
       ) : (
         <>
           <div className="flex justify-between">
-            <p className="font-bold text-[38px] text-slate-600">
-              Welcome
-              {derbyName ? ` back, ${derbyName}!` : "!"}
-            </p>
+            <Welcome derbyName={derbyName} />
             <Settings refreshDashboard={refreshDashboard} />
           </div>
-          {/* <SeasonGoalsCard goals={goals} /> */}
+          <SeasonGoalsCard goals={goals} />
           <Card />
           <Card />
           <Card />
