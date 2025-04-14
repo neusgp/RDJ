@@ -3,13 +3,7 @@ import { Card, SeasonGoalsCard, Settings } from "../components";
 import { useDashboard } from "../hooks";
 import { isError } from "../@types";
 import { authorise } from "../api";
-
-const Welcome = ({ derbyName }: { derbyName?: string }) => (
-  <p className="font-bold text-[38px] text-slate-600">
-    Welcome
-    {derbyName ? ` back, ${derbyName}!` : "!"}
-  </p>
-);
+import { Welcome } from "../components/dashboard/Welcome";
 
 export const Dashboard = () => {
   const [isDashboardUpdate, setIsDashboardUpdate] = useState<boolean>(true);
