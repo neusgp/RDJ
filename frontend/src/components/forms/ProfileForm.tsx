@@ -9,10 +9,12 @@ export const ProfileForm = ({
   children,
   close,
   showNotification,
+  refreshDashboard,
 }: {
   children: JSX.Element;
   close: () => void;
   showNotification: () => void;
+  refreshDashboard: () => void;
 }) => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   //todo: add regex validation and set submit errors
@@ -44,6 +46,7 @@ export const ProfileForm = ({
       credentials: "include",
     }).then(async (res) => {
       if (res.ok) {
+        refreshDashboard();
         close();
         showNotification();
       } else {

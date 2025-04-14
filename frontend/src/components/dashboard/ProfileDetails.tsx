@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { ProfileDetailsModal } from "../modals";
 import { Notification } from "../informative/Notification";
 
-export const ProfileDetails = () => {
+export const ProfileDetails = ({
+  refreshDashboard,
+}: {
+  refreshDashboard: () => void;
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isProfileUpdated, setIsProfileUpdated] = useState<boolean>(false);
 
@@ -21,6 +25,7 @@ export const ProfileDetails = () => {
         <ProfileDetailsModal
           handleIsOpen={handleIsOpen}
           showNotification={handleShowNotification}
+          refreshDashboard={refreshDashboard}
         />
       )}
       {isProfileUpdated && (

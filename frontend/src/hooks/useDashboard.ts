@@ -1,33 +1,37 @@
 import { useState, useEffect } from "react";
-import { DashboardProps, Error, isError } from "../@types";
-import { authorise } from "../api";
+import { DashboardProps } from "../@types";
+import { isEqual } from "lodash";
 
-export const useDashboard = () => {
-  const [data, setData] = useState<DashboardProps>();
+export const useDashboard = ({
+  isDashboardUpdate,
+  stopDashboardRefresh,
+}: {
+  isDashboardUpdate: boolean;
+  stopDashboardRefresh: () => void;
+}) => {
+  const [data, setData] = useState<DashboardProps>({
+    profile: { derbyName: "" },
+    goals: [],
+  });
   const [loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
-    //the question remains: should the redirect be done in the server? Or should the server be user as an API layer only?
-    //if I do this separately, there will be 2 api requests
-    authorise()
-      .then((result) => {
-        if (isError(result))
-          return (window.location.href = "http://localhost:3000/"); //out -> this will be the /login
-      })
-      .catch();
-
+    if (isDashboardUpdate) console.log("refreshing!");
     fetch("http://localhost:8081/get-dashboard", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
+      .then((newData: DashboardProps) => {
+        if (!isEqual(data, newData)) {
+          console.log("different data");
+          setData(newData);
+          stopDashboardRefresh();
+        }
       })
       .catch();
-  }, [data]);
+  }, [isDashboardUpdate]);
 
   return { loading, data };
 };

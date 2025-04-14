@@ -7,15 +7,20 @@ import { SubmitButton } from "../buttons";
 export const ProfileDetailsModal = ({
   handleIsOpen,
   showNotification,
+  refreshDashboard,
 }: {
   handleIsOpen: () => void;
   showNotification: () => void;
+  refreshDashboard: () => void;
 }) => {
   const { data: initialValues } = useProfile();
 
   return (
     <Modal modalTitle="Profile Details" onClose={handleIsOpen}>
-      <ProfileForm close={handleIsOpen} showNotification={showNotification}>
+      <ProfileForm
+        close={handleIsOpen}
+        showNotification={showNotification}
+        refreshDashboard={refreshDashboard}>
         <>
           <InputField
             label="Real name"

@@ -18,7 +18,7 @@ export const Notification = ({
     }, 6000);
   });
 
-  if (!portalRoot) return false;
+  if (!portalRoot) return <></>;
 
   return ReactDom.createPortal(
     <div
