@@ -4,48 +4,16 @@ import { GoalsFromValidation } from "../../validation";
 import { useGoals } from "../../hooks";
 import { AddGoalsButton, DeleteButton, SubmitButton } from "../buttons";
 import { getProvisionalId, PROVISIONAL } from "./lib";
+import { useAppContext } from "../../hooks/useAppContext";
 
-export const SeasonGoalsForm = ({
-  close,
-  refreshDashboard,
-}: {
-  close: () => void;
-  refreshDashboard: () => void;
-}) => {
+export const SeasonGoalsForm = ({ close }: { close: () => void }) => {
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
-  const [goals, setGoals] = useState<GoalsFormProps>([]);
 
-  const setInitialValues = (data: GoalsFormProps | undefined) => {
-    return data
-      ? setGoals(data)
-      : setGoals([{ id: getProvisionalId(), goal: "" }]);
-  };
+  const { refreshDashboard } = useAppContext();
 
-  useGoals({ setInitialValues });
-
-  const handleGoalValue = (
-    e: ChangeEvent<HTMLInputElement>,
-    rowIndex?: number
-  ) => {
-    if (rowIndex === undefined) return;
-
-    const editedGoal = e.target.value;
-
-    const newGoals = goals?.map((goal, i) => {
-      return i === rowIndex ? { id: goal.id, goal: editedGoal } : goal;
-    });
-    setGoals(newGoals);
-  };
-
-  const handleDelete = (rowIndex: number) => {
-    const newGoals = goals.filter((goal, i) => i !== rowIndex);
-    setGoals(newGoals); // Update the state
-  };
-
-  const handleAddGoal = () => {
-    setGoals([...goals, { id: getProvisionalId(), goal: "" }]);
-  };
+  const { goals, handleAddGoal, handleDeleteGoal, handleGoalValue } =
+    useGoals();
 
   const handleSubmit = () => {
     const goalsToSubmit = goals
@@ -91,7 +59,10 @@ export const SeasonGoalsForm = ({
                 rowIndex={rowIndex}
                 handleValue={handleGoalValue}
               />
-              <DeleteButton handleDelete={handleDelete} rowIndex={rowIndex} />
+              <DeleteButton
+                handleDelete={handleDeleteGoal}
+                rowIndex={rowIndex}
+              />
             </div>
           );
         })}
