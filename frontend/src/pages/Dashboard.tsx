@@ -4,6 +4,7 @@ import { useDashboard } from "../hooks";
 import { DashboardProps, isError } from "../@types";
 import { authorise } from "../api";
 import { Welcome } from "../components/dashboard/Welcome";
+import { AppContext } from "../hooks/useAppContext";
 
 export const Dashboard = () => {
   const [isDashboardUpdate, setIsDashboardUpdate] = useState<boolean>(true);
@@ -42,7 +43,9 @@ export const Dashboard = () => {
         <>
           <div className="flex justify-between">
             <Welcome derbyName={derbyName} />
-            <Settings refreshDashboard={refreshDashboard} />
+            <AppContext.Provider value={{ refreshDashboard }}>
+              <Settings />
+            </AppContext.Provider>
           </div>
           <SeasonGoalsCard goals={goals} />
           <Card />

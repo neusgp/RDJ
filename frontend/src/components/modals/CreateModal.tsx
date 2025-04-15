@@ -6,11 +6,9 @@ import { CreateSeasonGoalModal } from "./CreateSeasonGoalModal";
 export const CreateModal = ({
   createType,
   handleModalClose,
-  refreshDashboard,
 }: {
   createType: CreateType;
   handleModalClose: () => void;
-  refreshDashboard: () => void;
 }) => {
   return (
     <>
@@ -23,10 +21,7 @@ export const CreateModal = ({
             <CreateBoutReminderModal onClose={handleModalClose} />
           )}
           {createType === CreateTypes.goal && (
-            <CreateSeasonGoalModal
-              onClose={handleModalClose}
-              refreshDashboard={refreshDashboard}
-            />
+            <CreateSeasonGoalModal onClose={handleModalClose} />
           )}
         </>
       ) : (

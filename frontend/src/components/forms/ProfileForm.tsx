@@ -2,6 +2,7 @@ import React, { JSX, useState } from "react";
 import { getFormValues } from "./lib";
 import { ProfileFormValidation } from "../../validation";
 import { z } from "zod";
+import { useAppContext } from "../../hooks/useAppContext";
 
 type RegisterFormProps = z.infer<typeof ProfileFormValidation>;
 
@@ -9,16 +10,16 @@ export const ProfileForm = ({
   children,
   close,
   showNotification,
-  refreshDashboard,
 }: {
   children: JSX.Element;
   close: () => void;
   showNotification: () => void;
-  refreshDashboard: () => void;
 }) => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
+
+  const { refreshDashboard } = useAppContext();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

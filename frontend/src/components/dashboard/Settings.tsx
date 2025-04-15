@@ -3,16 +3,12 @@ import { LogOut } from "./LogOut";
 import { ProfileDetails } from "./ProfileDetails";
 import { CreateMenu } from "../menus";
 
-const SettingsComponent = ({
-  refreshDashboard,
-}: {
-  refreshDashboard: () => void;
-}) => {
+const SettingsComponent = () => {
   return (
     <div className="flex gap-10">
       <LogOut />
-      <ProfileDetails refreshDashboard={refreshDashboard} />
-      <CreateMenu refreshDashboard={refreshDashboard} />
+      <ProfileDetails />
+      <CreateMenu />
     </div>
   );
 };

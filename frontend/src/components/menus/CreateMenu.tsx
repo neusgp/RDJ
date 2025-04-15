@@ -4,11 +4,7 @@ import { CreateModal } from "../modals";
 import { CreateType } from "./lib";
 import { ActionButton } from "../buttons";
 
-export const CreateMenu = ({
-  refreshDashboard,
-}: {
-  refreshDashboard: () => void;
-}) => {
+export const CreateMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [createType, setCreateType] = useState<CreateType | undefined>();
 
@@ -37,7 +33,6 @@ export const CreateMenu = ({
         <CreateModal
           createType={createType}
           handleModalClose={handleModalClose}
-          refreshDashboard={refreshDashboard}
         />
       )}
     </>
