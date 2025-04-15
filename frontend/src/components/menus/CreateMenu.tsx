@@ -1,25 +1,19 @@
 import React, { useState } from "react";
 import { CreateMenuOptions } from "./CreateMenuOptions";
 import { CreateModal } from "../modals";
-import { CreateType } from "./lib";
 import { ActionButton } from "../buttons";
+import { useCreateModal } from "../../hooks";
 
 export const CreateMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [createType, setCreateType] = useState<CreateType | undefined>();
+
+  const { handleModalClose, handleCreate, createType } = useCreateModal();
 
   const handleActionButtonClick = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleModalClose = () => {
-    setCreateType(undefined);
-  };
-
-  const handleCreate = (createType: CreateType | undefined) => {
-    setCreateType(createType);
-  };
-
+  //create modal should be in the dashboard
   return (
     <>
       <div className="space-y-4">
