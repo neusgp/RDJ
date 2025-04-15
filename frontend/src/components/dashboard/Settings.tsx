@@ -12,7 +12,7 @@ const SettingsComponent = ({
     <div className="flex gap-10">
       <LogOut />
       <ProfileDetails refreshDashboard={refreshDashboard} />
-      <CreateMenu />
+      <CreateMenu refreshDashboard={refreshDashboard} />
     </div>
   );
 };

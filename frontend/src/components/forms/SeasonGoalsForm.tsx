@@ -5,7 +5,13 @@ import { useGoals } from "../../hooks";
 import { AddGoalsButton, DeleteButton, SubmitButton } from "../buttons";
 import { getProvisionalId, PROVISIONAL } from "./lib";
 
-export const SeasonGoalsForm = ({ close }: { close: () => void }) => {
+export const SeasonGoalsForm = ({
+  close,
+  refreshDashboard,
+}: {
+  close: () => void;
+  refreshDashboard: () => void;
+}) => {
   //todo: add regex validation and set submit errors
   const [submitError, setSubmitError] = useState<string | undefined>();
   const [goals, setGoals] = useState<GoalsFormProps>([]);
@@ -63,6 +69,7 @@ export const SeasonGoalsForm = ({ close }: { close: () => void }) => {
       credentials: "include",
     }).then(async (res) => {
       if (res.ok) {
+        refreshDashboard();
         close();
       } else {
         const { error } = await res.json();
