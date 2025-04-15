@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { DashboardProps } from "../@types";
+import { DashboardProps, GoalsProps, ProfileProps } from "../@types";
 import { isEqual } from "lodash";
 
 export const useDashboard = ({
@@ -9,10 +9,10 @@ export const useDashboard = ({
   isDashboardUpdate: boolean;
   handleRefreshDashboard: () => void;
 }) => {
-  const [data, setData] = useState<DashboardProps>({
-    profile: { derbyName: "" },
-    goals: [],
+  const [profile, setProfile] = useState<Pick<ProfileProps, "derbyName">>({
+    derbyName: "",
   });
+  const [goals, setGoals] = useState<GoalsProps>([]);
   const [loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
@@ -23,15 +23,23 @@ export const useDashboard = ({
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((newData: DashboardProps) => {
-        if (!isEqual(data, newData)) {
-          console.log("different data");
-          setData(newData);
+      .then((data: DashboardProps) => {
+        //refactor this
+        const { profile: storedProfile, goals: storedGoals } = data;
+        if (isEqual(profile, data.profile) && isEqual(goals, data.goals)) {
+          return;
+        } else {
+          if (!isEqual(storedProfile, profile)) {
+            setProfile(storedProfile);
+          }
+          if (!isEqual(storedGoals, goals)) {
+            setGoals(storedGoals);
+          }
           handleRefreshDashboard();
         }
       })
       .catch();
   }, [isDashboardUpdate]);
 
-  return { loading, data };
+  return { loading, profile, goals };
 };

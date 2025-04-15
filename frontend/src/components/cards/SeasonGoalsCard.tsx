@@ -6,7 +6,7 @@ import { GoalsProps } from "../../@types";
 
 //on pencil click, open season goals modal.
 
-export const SeasonGoalsCard = ({ goals }: { goals?: GoalsProps }) => {
+const SeasonGoalsCardComponent = ({ goals }: { goals?: GoalsProps }) => {
   return (
     <div className="px-5 py-4 bg-[#F5F3FF] w-max rounded-lg flex flex-col gap-5 goals-card">
       <div className="flex justify-between ">
@@ -32,3 +32,5 @@ export const SeasonGoalsCard = ({ goals }: { goals?: GoalsProps }) => {
     </div>
   );
 };
+
+export const SeasonGoalsCard = React.memo(SeasonGoalsCardComponent);

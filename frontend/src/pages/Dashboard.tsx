@@ -1,14 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Card, SeasonGoalsCard, Settings } from "../components";
 import { useDashboard } from "../hooks";
-import { isError } from "../@types";
+import { DashboardProps, isError } from "../@types";
 import { authorise } from "../api";
 import { Welcome } from "../components/dashboard/Welcome";
 
 export const Dashboard = () => {
   const [isDashboardUpdate, setIsDashboardUpdate] = useState<boolean>(true);
-
-  const refreshDashboard = useCallback(() => setIsDashboardUpdate(true), []);
 
   const handleRefreshDashboard = () => {
     setIsDashboardUpdate(false);
@@ -23,14 +21,18 @@ export const Dashboard = () => {
       .catch();
   }, []);
 
-  const { data, loading } = useDashboard({
+  const {
+    profile,
+    goals: stateGoals,
+    loading,
+  } = useDashboard({
     isDashboardUpdate,
     handleRefreshDashboard,
   });
 
-  const { goals } = data || {};
-  const { profile } = data || {};
   const { derbyName } = profile || {};
+  const refreshDashboard = useCallback(() => setIsDashboardUpdate(true), []);
+  const goals = useMemo(() => stateGoals, [stateGoals]);
 
   return (
     <div className="h-screen p-6">
